@@ -1,0 +1,14 @@
+﻿@model TableVM
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="card-header">Small Table (Responsive)</div>
+<view-table Table="@Model.SmallTable"></view-table>
+
+<div class="card-header">Collapsable Table</div>
+<view-table Table="@Model.CollapsableTable"></view-table>
+
+<div class="card-header">Long Table (Responsive)</div>
+<view-table Table="@Model.LongTable"></view-table>
