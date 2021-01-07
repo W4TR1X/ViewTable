@@ -43,6 +43,7 @@ td.cell-collapse {
 
 /* no-more-tables */
 
+/* https://findbootstrapsnippets.com/bootstrap-templates/no-more-tables-responsive-table.html */
 @media only screen and (max-width: 767px) {
     /* Force table to not be like tables anymore */
     #no-more-tables table,
@@ -121,6 +122,11 @@ td.cell-collapse {
         #no-more-tables td.center {
             text-align: start;
         }
+}
+
+/* Cursors */
+.cursor-hand {
+    cursor: pointer;
 }
 
 

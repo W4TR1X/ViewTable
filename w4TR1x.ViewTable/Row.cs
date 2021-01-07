@@ -23,8 +23,6 @@ namespace w4TR1x.ViewTable
 
             if (Collapsable && Rows.Any())
             {
-                //TODO: hack-fix for now
-                //thisRow.Attributes.Add("style", "cursor: pointer;");
                 thisRow.AddCssClass("cursor-hand");
 
                 thisRow.Attributes.Add("data-target", $".{Identifier}");
