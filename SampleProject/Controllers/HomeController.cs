@@ -1,12 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Efesan.Aspnet.Common.CellStyles;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SampleProject.Extensions;
 using SampleProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using w4TR1x.ViewTable;
+using w4TR1x.ViewTable.Aspnet;
+using w4TR1x.ViewTable.Enums;
+using w4TR1x.ViewTable.Excel;
+using w4TR1x.ViewTable.Values;
 
 namespace SampleProject.Controllers
 {
@@ -19,186 +26,99 @@ namespace SampleProject.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        TableVM prepareSampleViewmodel()
         {
-            var model = new TableVM();
+            var model = new TableVM()
+            {
+                TestTable = new Table(
+                    new Table.PageModel("First Table", 4, true))
+                {
+                    Responsive = true,
+                    UseVerticalTable = true
+                }
+            };
 
+            var headerStyle = new HeaderStyle();
+            var rowStyle = new BasicStyle(Color.Red, textBold: true, htmlClasses: "text-danger");
 
+            var rnd = new Random();
 
-            //Sample Table #1
-            //Table is the first row 
-            var table = new Table(w4TR1x.ViewTable.Enums.RowEnum.Header);
-            table.Responsive = true; // Responsive table
+            model.TestTable
+                .AddRow(new Row(RowEnum.Header)
+                    .AddCell(new Cell(values: new StringValue("Rows"), style: headerStyle))
+                        .UpdateTextPosition(TextPositionEnum.Left)
+                    .AddCell(new Cell(values: new StringValue("Col1"), style: headerStyle))
+                    .AddCell(new Cell(values: new StringValue("Col2"), style: headerStyle))
+                    .AddCell(new Cell(values: new StringValue("Col3"), style: headerStyle))
+                    .AddCell(new Cell(values: new StringValue("Col4"), style: headerStyle))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row1"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100)))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row2"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Int)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Single)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Double)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Triple))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row3"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100)))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row4"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Int)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Single)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Double)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Triple))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row5"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100)))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row6"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Int)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Single)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Double)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Triple))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row7"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100))))
+                        .AddCell(new Cell(values: new IntValue(rnd.Next(-100, 100)))))
+                    .AddRow(new Row()
+                        .AddCell(new Cell(values: new StringValue("Row8"), style: rowStyle))
+                            .UpdateTextPosition(TextPositionEnum.Left)
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Int)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Single)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Double)))
+                        .AddCell(new Cell(values: new DoubleValue(rnd.NextDouble() * 100, ValueEnum.Triple)))));
 
-            table.AddCell(new HeaderCell("Id"));
-            table.AddCell(new HeaderCell("Name"));
-            table.AddCell(new HeaderCell("Surname"));
-            table.AddCell(new HeaderCell("Date Of Birth"));
-
-            //Row1
-            var row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-
-            row.AddCell(new RowCell("0"));
-            row.AddCell(new RowCell("John"));
-            row.AddCell(new RowCell("Doe"));
-            row.AddCell(new RowCell("1900-01-25"));
-
-            table.AddRow(row);
-
-            //Row2
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-
-            row.AddCell(new RowCell("1"));
-            row.AddCell(new RowCell("Isabel"));
-            row.AddCell(new RowCell("Dollar"));
-            row.AddCell(new RowCell("2009-10-02"));
-
-            table.AddRow(row);
-
-            //Row3
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-
-            row.AddCell(new RowCell("2"));
-            row.AddCell(new RowCell("Anthony"));
-            row.AddCell(new RowCell("Armstrong"));
-            row.AddCell(new RowCell("1685-05-09"));
-
-            table.AddRow(row);
-
-            model.SmallTable = table;
-
-
-
-            //Sample Table #2
-            //Table is the first row 
-            table = new Table(w4TR1x.ViewTable.Enums.RowEnum.Header);
-
-            table.AddCell(new HeaderCell("Id"));
-            table.AddCell(new HeaderCell("Name"));
-            table.AddCell(new HeaderCell("Surname"));
-            table.AddCell(new HeaderCell("Date Of Birth"));
-
-            //Row1
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-            row.Collapsable = true;
-            row.Collapsed = true;
-
-            row.AddCell(new TotalCell("100"));
-            row.AddCell(new TotalCell(""));
-            row.AddCell(new TotalCell(""));
-            row.AddCell(new TotalCell("1 Date"));
-
-            table.AddRow(row);
-
-            //Row1-2
-            var row2 = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-            row2.Collapsable = true;
-            row2.Collapsed = true;
-
-            row2.AddCell(new RowCell("101"));
-            row2.AddCell(new RowCell("John"));
-            row2.AddCell(new RowCell("Doe"));
-            row2.AddCell(new RowCell("1900-01-25"));
-
-            row.AddRow(row2);
-
-            //Row2
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-            row.Collapsable = true;
-            row.Collapsed = true;
-
-            row.AddCell(new TotalCell("200"));
-            row.AddCell(new TotalCell(""));
-            row.AddCell(new TotalCell(""));
-            row.AddCell(new TotalCell("1 Date"));
-
-            table.AddRow(row);
-
-            //Row2-1
-            row2 = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-            row2.Collapsable = true;
-            row2.Collapsed = true;
-
-            row2.AddCell(new RowCell("201"));
-            row2.AddCell(new RowCell("Isabel"));
-            row2.AddCell(new RowCell("Dollar"));
-            row2.AddCell(new RowCell("2009-10-02"));
-
-            row.AddRow(row2);
-
-            model.CollapsableTable = table;
-
-
-
-
-            //Sample Table #3
-            //Table is the first row 
-            table = new Table(w4TR1x.ViewTable.Enums.RowEnum.Header);
-            table.Responsive = true; // Responsive table
-
-            table.AddCell(new HeaderCell("Id"));
-            table.AddCell(new HeaderCell("Name"));
-            table.AddCell(new HeaderCell("Surname"));
-            table.AddCell(new HeaderCell("Date Of Birth"));
-            table.AddCell(new HeaderCell("Name"));
-            table.AddCell(new HeaderCell("Surname"));
-            table.AddCell(new HeaderCell("Date Of Birth"));
-            table.AddCell(new HeaderCell("Name"));
-            table.AddCell(new HeaderCell("Surname"));
-
-            //Row1
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-
-            row.AddCell(new RowCell("0"));
-            row.AddCell(new RowCell("John"));
-            row.AddCell(new RowCell("Doe"));
-            row.AddCell(new RowCell("1900-01-25"));
-            row.AddCell(new RowCell("John"));
-            row.AddCell(new RowCell("Doe"));
-            row.AddCell(new RowCell("1900-01-25"));
-            row.AddCell(new RowCell("John"));
-            row.AddCell(new RowCell("Doe"));
-
-            table.AddRow(row);
-
-            //Row2
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-
-            row.AddCell(new RowCell("1"));
-            row.AddCell(new RowCell("Isabel"));
-            row.AddCell(new RowCell("Dollar"));
-            row.AddCell(new RowCell("2009-10-02"));
-            row.AddCell(new RowCell("Isabel"));
-            row.AddCell(new RowCell("Dollar"));
-            row.AddCell(new RowCell("2009-10-02"));
-            row.AddCell(new RowCell("Isabel"));
-            row.AddCell(new RowCell("Dollar"));
-
-            table.AddRow(row);
-
-            //Row3
-            row = new Row(w4TR1x.ViewTable.Enums.RowEnum.Record);
-
-            row.AddCell(new RowCell("2"));
-            row.AddCell(new RowCell("Anthony"));
-            row.AddCell(new RowCell("Armstrong"));
-            row.AddCell(new RowCell("1685-05-09"));
-            row.AddCell(new RowCell("Anthony"));
-            row.AddCell(new RowCell("Armstrong"));
-            row.AddCell(new RowCell("1685-05-09"));
-            row.AddCell(new RowCell("Anthony"));
-            row.AddCell(new RowCell("Armstrong"));
-
-            table.AddRow(row);
-
-            model.LongTable = table;
-
-            return View(model);
+            return model;
         }
 
-        public IActionResult Privacy()
+        public IActionResult Index()
         {
-            return View();
+            return View(prepareSampleViewmodel());
+        }
+
+        public IActionResult ExcelExport()
+        {
+            return prepareSampleViewmodel().TestTable.ToExcelFileResult("Sample top row header text", "Title of File", "Subject of file");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

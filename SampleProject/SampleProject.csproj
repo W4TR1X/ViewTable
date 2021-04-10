@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+    <ProjectReference Include="..\w4TR1x.ViewTable.Aspnet\w4TR1x.ViewTable.Aspnet.csproj" />
+    <ProjectReference Include="..\w4TR1x.ViewTable.Excel\w4TR1x.ViewTable.Excel.csproj" />
     <ProjectReference Include="..\w4TR1x.ViewTable\w4TR1x.ViewTable.csproj" />
   </ItemGroup>
 

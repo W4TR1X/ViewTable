@@ -1,89 +1,82 @@
-﻿using w4TR1x.ViewTable.Base;
-using w4TR1x.ViewTable.Enums;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using w4TR1x.ViewTable.Enums;
 using System;
 using System.Linq;
+using w4TR1x.ViewTable.Interfaces;
+using System.Collections.Generic;
 
 namespace w4TR1x.ViewTable
 {
-    public class Table : EntryRow
+    public class Table
     {
         public bool Responsive { get; set; }
+        public string Identifier { get; private set; }
+        public List<IRow> Rows { get; private set; }
 
-        public Table(RowEnum rowType = RowEnum.Record, string identifier = "") : base(rowType, identifier)
+        public bool UseVerticalTable { get; set; }
+        public bool Stripped { get; set; }
+
+        public List<PageModel> Pages { get; private set; }
+
+        public Table(string identifier = null, params PageModel[] pages)
         {
+            init(identifier, pages);
         }
 
-        public override TagBuilder Render(TagBuilder builder = null)
+        public Table(params PageModel[] pages)
         {
-            TagBuilder div = new TagBuilder("div");
+            init(null, pages);
+        }
 
-            div.Attributes.Add("id", "no-more-tables");
+        void init(string identifier = null, params PageModel[] pages)
+        {
+            UseVerticalTable = true;
 
-            div.AddCssClass("tab-pane");
-            div.AddCssClass("fade");
-            div.AddCssClass("show");
-            div.AddCssClass("active");
-
-            var thisTable = new TagBuilder("table");
-            thisTable.Attributes.Add("id", Identifier + "-table");
-
-            if (CanPopup())
+            Pages = new List<PageModel>();
+            if (pages.Length != 0)
             {
-                thisTable.Attributes.Add("data-toggle", "popover");
-                thisTable.Attributes.Add("data-trigger", "hover");
-                thisTable.Attributes.Add("data-content", PopupText);
-                thisTable.Attributes.Add("data-original-title", PopupTitle);
+                Pages.AddRange(pages);
+            }
+            else
+            {
+                Pages.Add(new PageModel("Default"));
             }
 
-            thisTable.AddCssClass("table");
-            thisTable.AddCssClass("table-bordered");
-            thisTable.AddCssClass("table-hover");
-            thisTable.AddCssClass("small");
-            thisTable.AddCssClass("col-md-12");
-            thisTable.AddCssClass("table-condensed");
-            thisTable.AddCssClass("cf");
+            Rows = new List<IRow>();
+            Identifier = identifier != null && identifier.ToString().Length == 0 ? $"row_{Guid.NewGuid().ToString().Replace("-", "")}" : identifier;
+        }
 
-            if (!Responsive)
-                thisTable.AddCssClass("w-auto");
+        public Table AddRow(IRow row)
+        {
+            Rows.Add(row);
+            return this;
+        }
 
-            var thisRow = new TagBuilder("tr");
-            thisRow.Attributes.Add("id", Identifier);
-            thisRow.AddCssClass($"vt-rl{Index()}");
+        public void OrderBy(int cellIndex, int renderIndex, bool desc = false)
+        {
+            Rows.ForEach(row => row.OrderBy(cellIndex, renderIndex, desc));
 
-            var index = 0;
-            foreach (var cell in Cells)
+            if (!desc)
             {
-                var cellRender = cell.Render();
-
-                if (Collapsable)
-                {
-                    if (index == 0)
-                    {
-                        cellRender.InnerHtml.AppendHtml(" <i class=\"fa text-muted\" aria-hidden=\"true\"></i>");
-                    }
-                }
-                thisRow.InnerHtml.AppendHtml(cellRender);
-
-                index++;
+                Rows = Rows.OrderBy(x => x.GetOrderValue(cellIndex, renderIndex)).ToList();
             }
-
-            if (Cells.Count == Cells.Where(x => x.GetType() == typeof(HeaderCell)).Count())
+            else
             {
-                thisRow.AddCssClass("headerRow");
+                Rows = Rows.OrderByDescending(x => x.GetOrderValue(cellIndex, renderIndex)).ToList();
             }
+        }
 
-            thisTable.InnerHtml.AppendHtml(thisRow);
+        public class PageModel
+        {
+            public string PageName { get; set; }
+            public int OrderBy { get; set; }
+            public bool DescendingOrder { get; set; }
 
-            div.InnerHtml.AppendHtml(thisTable);
-
-            foreach (var row in Rows)
+            public PageModel(string pageName, int orderBy = -1, bool descendingOrder = false)
             {
-                row.Render(thisTable);
+                PageName = pageName;
+                OrderBy = orderBy;
+                DescendingOrder = descendingOrder;
             }
-
-            return div;
         }
     }
 }

@@ -140,3 +140,17 @@ td.cell-collapse {
     padding: 5px !important;
     width: 100% !important;
 }
+
+.sticky-header {
+    background-color: #e5ffff;
+}
+
+@media only screen and (min-width: 768px) {
+    .sticky-header {
+        position: sticky;
+        /*top: 59px;*/
+        z-index: 0;
+        box-shadow: inset 0px -2px 3px 1px #0000000d;
+        background-color: #ecfcff;
+    }
+}

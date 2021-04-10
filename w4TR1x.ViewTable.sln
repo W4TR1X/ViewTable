@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{6213BCDC-3E70-4A48-8B59-B529D4E6EE7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject", "SampleProject\SampleProject.csproj", "{6213BCDC-3E70-4A48-8B59-B529D4E6EE7F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable", "w4TR1x.ViewTable\w4TR1x.ViewTable.csproj", "{E76429D2-9FFB-4CA0-9A88-DB3F4E51AA7C}"
 EndProject
@@ -12,6 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		preview.png = preview.png
 		preview2.png = preview2.png
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "w4TR1x.ViewTable.Aspnet", "w4TR1x.ViewTable.Aspnet\w4TR1x.ViewTable.Aspnet.csproj", "{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "w4TR1x.ViewTable.Excel", "w4TR1x.ViewTable.Excel\w4TR1x.ViewTable.Excel.csproj", "{D5B496F5-19C9-44B3-91E7-9F150A9C9870}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus", "EPPlus\EPPlus.csproj", "{09637DA1-42A2-406A-966A-EB6C4D04F6B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{E76429D2-9FFB-4CA0-9A88-DB3F4E51AA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E76429D2-9FFB-4CA0-9A88-DB3F4E51AA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E76429D2-9FFB-4CA0-9A88-DB3F4E51AA7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5B496F5-19C9-44B3-91E7-9F150A9C9870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5B496F5-19C9-44B3-91E7-9F150A9C9870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5B496F5-19C9-44B3-91E7-9F150A9C9870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5B496F5-19C9-44B3-91E7-9F150A9C9870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
