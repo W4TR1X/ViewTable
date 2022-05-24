@@ -18,7 +18,7 @@ public class IntValue : CellValue<int>
     }
 
 
-    public override object AsOrderValue()
+    public override dynamic AsOrderValue()
     {
         return Value;
     }

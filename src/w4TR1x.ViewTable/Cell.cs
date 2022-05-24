@@ -7,13 +7,11 @@ public class Cell : ICell
     public IRow? Parent { get; set; } = null;
 
     public ICellStyle BaseStyle { get; set; }
-    public List<ICellValue> Values { get; }
+    public List<ICellPageValue> Values { get; } = new();
 
     public string Identifier { get; }
     public bool Hidden { get; set; }
-    public string Title { get; set; }
-    public string PopupTitle { get; set; }
-    public string PopupText { get; set; }
+    public string? Title { get; set; }
     public int? CustomOrderValue { get; set; }
 
     public bool NoWrap { get; set; }
@@ -36,9 +34,8 @@ public class Cell : ICell
     }
 
     [JsonConstructor]
-    public Cell(ICellStyle baseStyle, List<ICellValue> values,
-        string identifier, bool hidden, string title, string popupTitle, string popupText,
-        int? customOrderValue, bool noWrap, int rowSpan, int colSpan)
+    public Cell(ICellStyle baseStyle, List<ICellPageValue> values, string identifier,
+        bool hidden, string title, int? customOrderValue, bool noWrap, int rowSpan, int colSpan)
     {
         BaseStyle = baseStyle;
 
@@ -46,33 +43,42 @@ public class Cell : ICell
         Identifier = identifier;
         Hidden = hidden;
         Title = title;
-        PopupTitle = popupTitle;
-        PopupText = popupText;
         CustomOrderValue = customOrderValue;
         NoWrap = noWrap;
         RowSpan = rowSpan;
         ColSpan = colSpan;
     }
 
-    public Cell(List<ICellValue> values, ICellStyle style, string? identifier = null)
+    public Cell(List<ICellValue> values, ICellStyle? style = null, string? identifier = null)
+    {
+        BaseStyle = style ?? new CellStyle();
+
+        Identifier = IdentityHelper.CreateIfNull(identifier, "c");
+
+        foreach (var value in values)
+        {
+            Values.Add(new CellPageValue(value, null));
+        }
+    }
+
+    public Cell(List<ICellPageValue> values, ICellStyle style, string? identifier = null)
     {
         BaseStyle = style;
 
-        Identifier = string.IsNullOrWhiteSpace(identifier)
-            ? IdentityHelper.Create("c")
-            : identifier;
+        Identifier = IdentityHelper.CreateIfNull(identifier, "c");
 
         Values = values;
     }
 
-    public bool CanPopup()
+    public bool CanPopup(int pageIndex)
     {
-        return (PopupTitle != null && PopupTitle.Any()) || (PopupText != null && PopupText.Any());
+        return !string.IsNullOrWhiteSpace(Values[pageIndex].PopupTitle)
+            || !string.IsNullOrWhiteSpace(Values[pageIndex].PopupText);
     }
     public virtual bool IsHidden(bool calculating = false)
     {
         bool hiddenCheck()
-            => Values?.Count(x => !string.IsNullOrEmpty(x.GetValue().ToString())) == 0;
+            => Values?.Count(x => !string.IsNullOrEmpty(x.Value.GetValue()?.ToString())) == 0;
 
         if (calculating)
         {
@@ -84,36 +90,46 @@ public class Cell : ICell
         }
     }
 
-    public ICellValue GetValue(int renderIndex)
+    public ICellValue GetValue(int pageIndex)
     {
-        if (Values.Count > renderIndex)
+        if (Values.Count > pageIndex)
         {
-            return Values[renderIndex];
+            return Values[pageIndex].Value;
         }
 
-        return Values.First();
+        return Values.First().Value;
     }
-    public string GetValueAsString(int renderIndex)
+    public string GetValueAsString(int pageIndex)
     {
-        if (Values.Count > renderIndex)
+        if (Values.Count > pageIndex)
         {
-            return Values[renderIndex].ToString() ?? string.Empty;
+            return Values[pageIndex].ToString() ?? string.Empty;
         }
 
         return Values.FirstOrDefault()?.ToString() ?? string.Empty;
     }
-    public object GetOrderValue(int renderIndex)
+    public dynamic GetOrderValue(int pageIndex)
     {
         if (CustomOrderValue.HasValue)
         {
             return CustomOrderValue.Value;
         }
 
-        if (Values.Count > renderIndex)
+        if (Values.Count > pageIndex)
         {
-            return Values[renderIndex].AsOrderValue();
+            return Values[pageIndex].AsOrderValue();
         }
 
         return Values[0].AsOrderValue();
+    }
+
+    public void SetStyle(ICellStyle refStyle)
+    {
+        BaseStyle.FontColor = refStyle.FontColor ?? BaseStyle.FontColor;
+        BaseStyle.BorderColor = refStyle.BorderColor ?? BaseStyle.BorderColor;
+        BaseStyle.TextPosition = refStyle.TextPosition ?? BaseStyle.TextPosition;
+        BaseStyle.BackgroundColor = refStyle.BackgroundColor ?? BaseStyle.BackgroundColor;
+
+        //TODO: make better implementation
     }
 }

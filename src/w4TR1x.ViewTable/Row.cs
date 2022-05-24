@@ -6,10 +6,10 @@ namespace w4TR1x.ViewTable;
 public class Row : IRow
 {
     [JsonIgnore]
-    public IRow Parent { get; set; }
+    public IRow Parent { get; set; } = null!;
 
     [JsonIgnore]
-    public Table Table { get; private set; }
+    public Table Table { get; private set; } = null!;
 
     public List<IRow> Rows { get; private set; }
     public List<ICell> Cells { get; }
@@ -20,8 +20,9 @@ public class Row : IRow
     public bool Collapsed { get; set; }
     public string Identifier { get; }
     public RowEnum RowType { get; set; }
-    public string PopupTitle { get; set; }
-    public string PopupText { get; set; }
+
+    public string? PopupTitle { get; set; }
+    public string? PopupText { get; set; }
 
     [JsonConstructor]
     public Row(List<IRow> rows, List<ICell> cells, List<ICellStyle> styles, bool orderable, List<double> customOrderValues,
@@ -64,7 +65,7 @@ public class Row : IRow
         }
     }
 
-    public Row(RowEnum type = RowEnum.Record, bool orderable = false, string identifier = "")
+    public Row(RowEnum type = RowEnum.Record, bool orderable = false, string? identifier = null)
     {
         Orderable = orderable;
 
@@ -73,9 +74,7 @@ public class Row : IRow
         Styles = new List<ICellStyle>();
 
         RowType = type;
-        Identifier = (identifier ?? "").Length == 0
-            ? IdentityHelper.Create("r")
-            : identifier;
+        Identifier = IdentityHelper.CreateIfNull(identifier, "r");
 
         Cells = new List<ICell>();
         Rows = new List<IRow>();
@@ -119,7 +118,17 @@ public class Row : IRow
 
     public IRow UpdateTextPosition(TextPositionEnum position)
     {
-        Cells.Last().TextPosition = position;
+        var cell = Cells.Last();
+
+        cell.BaseStyle.TextPosition = position;
+
+        var cellValues = cell.Values
+            .Where(x => x.Style?.TextPosition.HasValue == true);
+
+        foreach (var value in cellValues)
+        {
+            value.Style!.TextPosition = position;
+        }
 
         return this;
     }
@@ -128,8 +137,11 @@ public class Row : IRow
     {
         var cell = Cells.Last();
 
-        cell.PopupTitle = popupTitle;
-        cell.PopupText = popupText;
+        foreach (var value in cell.Values)
+        {
+            value.PopupTitle = popupTitle;
+            value.PopupText = popupText;
+        }
 
         return this;
     }
@@ -204,7 +216,7 @@ public class Row : IRow
     {
         if (RowType == RowEnum.Header)
         {
-            ICell cell = null;
+            ICell? cell = null;
 
             var cellId = 0;
             var cellIndex = -1;
@@ -225,7 +237,7 @@ public class Row : IRow
 
             if (cell != null && cell.Values.Count > 0)
             {
-                return cell.Values[0].GetValue().ToString();
+                return cell.Values[0].Value.GetValue()!.ToString();
             }
         }
 
@@ -248,29 +260,27 @@ public class Row : IRow
             return Parent.GetTitleFor(index, false);
         }
 
-        return "";
+        return string.Empty;
     }
 
 
-    public void OrderBy(int cellIndex, int renderIndex, bool desc = false)
+    public void OrderBy(int cellIndex, int pageIndex, bool desc = false)
     {
-        Rows.ForEach(row => row.OrderBy(cellIndex, renderIndex, desc));
+        Rows.ForEach(row => row.OrderBy(cellIndex, pageIndex, desc));
 
         if (desc)
         {
-            Rows = Rows.OrderByDescending(x => x.Orderable ? x.GetOrderValue(cellIndex, renderIndex) : null).ToList();
+            Rows = Rows.OrderByDescending(x => x.Orderable ? x.GetOrderValue(cellIndex, pageIndex) : null).ToList();
         }
         else
         {
-            Rows = Rows.OrderBy(x => x.Orderable ? x.GetOrderValue(cellIndex, renderIndex) : null).ToList();
+            Rows = Rows.OrderBy(x => x.Orderable ? x.GetOrderValue(cellIndex, pageIndex) : null).ToList();
         }
     }
 
 
     public ICell GetCell(int cellIndex)
     {
-        ICell cell = null;
-
         var totalCellArea = CalculateCellArea();
 
         if (totalCellArea > cellIndex)
@@ -284,40 +294,40 @@ public class Row : IRow
 
             } while (currentCellIndex < cellIndex);
 
-            cell = Cells[index - 1];
+            return Cells[index - 1];
         }
 
-        return cell;
+        throw new ArgumentOutOfRangeException(nameof(cellIndex));
     }
 
-    public object GetValue(int cellIndex, int renderIndex)
+    public dynamic GetValue(int cellIndex, int pageIndex)
     {
         var cell = GetCell(cellIndex);
 
         if (cell != null)
         {
-            return cell.GetValue(renderIndex);
+            return cell.GetValue(pageIndex);
         }
 
-        return null;
+        throw new ArgumentOutOfRangeException(nameof(cellIndex));
     }
 
-    public object GetOrderValue(int cellIndex, int renderIndex)
+    public dynamic GetOrderValue(int cellIndex, int pageIndex)
     {
 
-        if (CustomOrderValues.Count > renderIndex)
+        if (CustomOrderValues.Count > pageIndex)
         {
-            return CustomOrderValues[renderIndex];
+            return CustomOrderValues[pageIndex];
         }
 
         var cell = GetCell(cellIndex);
 
         if (cell != null)
         {
-            return cell.GetOrderValue(renderIndex);
+            return cell.GetOrderValue(pageIndex);
         }
 
-        return null;
+        throw new ArgumentOutOfRangeException(nameof(cellIndex));
     }
 
     public int CalculateCellArea()
@@ -331,10 +341,17 @@ public class Row : IRow
         {
             var cells = Cells.Skip(1);
 
-            Cells[0].TextPosition = TextPositionEnum.Left;
+            Cells[0].SetStyle(new CellStyle()
+            {
+                TextPosition = TextPositionEnum.Left,
+            });
+
             foreach (var cell in cells)
             {
-                cell.TextPosition = TextPositionEnum.Center;
+                cell.SetStyle(new CellStyle()
+                {
+                    TextPosition = TextPositionEnum.Center,
+                });
             }
         }
     }
@@ -362,13 +379,13 @@ public class Row : IRow
         {
             var rCell = row.GetCell(cell.Index());
 
-            if (rCell.Values.Count == 1 && rCell.Values[0].Value is string)
+            if (rCell.Values.Count == 1 && rCell.Values[0].Value.Value is string)
             {
                 retValue += CalculateFromColumn(pageIndex, cell, row.Rows, calculateStyle, retValue);
             }
             else
             {
-                if (rCell != null && rCell.Values.Count > pageIndex && rCell.Values[pageIndex] is DoubleValue rValue)
+                if (rCell.Values.Count > pageIndex && rCell.Values[pageIndex] is DoubleValue rValue)
                 {
                     retValue += calculateStyle switch
                     {

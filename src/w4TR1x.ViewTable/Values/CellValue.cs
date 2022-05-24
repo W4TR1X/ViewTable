@@ -5,8 +5,6 @@ public abstract class CellValue<T> : ICellValue<T>
 {
     public T ResultValue => (T)Value;
 
-    private bool _disposed = false;
-
     public dynamic Value { get; protected set; }
 
     public Type ValueType { get; private set; }
@@ -41,19 +39,4 @@ public abstract class CellValue<T> : ICellValue<T>
     }
 
     protected abstract void SetValue(T value);
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed)
-        {
-            return;
-        }
-
-        _disposed = true;
-    }
 }

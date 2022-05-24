@@ -5,22 +5,22 @@ namespace w4TR1x.ViewTable;
 [Serializable]
 public class Table
 {
-    public string Identifier { get; private set; }
+    public string Identifier { get; private set; } = null!;
     public bool Responsive { get; set; }
     public bool UseVerticalTable { get; set; }
     public bool Stripped { get; set; }
     public int FixedColumnCount { get; set; } = 1;
 
-    public List<Page> Pages { get; private set; }
+    public List<Page> Pages { get; private set; } = new();
 
-    public List<IRow> Rows { get; set; }
+    public List<IRow> Rows { get; set; } = new();
 
     public IRow? GetFirstRow() => Rows.FirstOrDefault();
 
     public IRow? GetLastRow() => Rows.LastOrDefault();
 
     [JsonConstructor]
-    public Table(string identifier, bool responsive, bool useVerticalTable, bool stripped,
+    private Table(string identifier, bool responsive, bool useVerticalTable, bool stripped,
         int fixedColumnCount, List<Page> pages, List<IRow> rows)
     {
         Identifier = identifier;
@@ -29,7 +29,6 @@ public class Table
         Stripped = stripped;
         FixedColumnCount = fixedColumnCount;
 
-        Pages = new();
         if (pages != null)
         {
             foreach (var page in pages)
@@ -38,7 +37,6 @@ public class Table
             }
         }
 
-        this.Rows = new();
         if (pages != null)
         {
             foreach (var row in rows)
@@ -48,7 +46,7 @@ public class Table
         }
     }
 
-    public Table(string identifier = null, params Page[] pages)
+    public Table(string? identifier = null, params Page[] pages)
     {
         Init(identifier, pages);
     }
@@ -58,11 +56,10 @@ public class Table
         Init(null, pages);
     }
 
-    void Init(string identifier = null, params Page[] pages)
+    void Init(string? identifier = null, params Page[] pages)
     {
         UseVerticalTable = true;
 
-        Pages = new List<Page>();
         if (pages.Length != 0)
         {
             Pages.AddRange(pages);
@@ -72,10 +69,7 @@ public class Table
             Pages.Add(new Page("Default"));
         }
 
-        Rows = new();
-        Identifier = (identifier ?? "").Length == 0
-            ? IdentityHelper.Create("t")
-            : identifier;
+        Identifier = IdentityHelper.CreateIfNull(identifier, "t");
     }
 
     public void AddRow(IRow row)
@@ -84,17 +78,17 @@ public class Table
         Rows.Add(row);
     }
 
-    public void OrderBy(int cellIndex, int renderIndex, bool desc = false)
+    public void OrderBy(int cellIndex, int pageIndex, bool desc = false)
     {
-        Rows.ToList().ForEach(row => row.OrderBy(cellIndex, renderIndex, desc));
+        Rows.ToList().ForEach(row => row.OrderBy(cellIndex, pageIndex, desc));
 
         if (!desc)
         {
-            Rows = Rows.OrderBy(x => x.GetOrderValue(cellIndex, renderIndex)).ToList();
+            Rows = Rows.OrderBy(x => x.GetOrderValue(cellIndex, pageIndex)).ToList();
         }
         else
         {
-            Rows = Rows.OrderByDescending(x => x.GetOrderValue(cellIndex, renderIndex)).ToList();
+            Rows = Rows.OrderByDescending(x => x.GetOrderValue(cellIndex, pageIndex)).ToList();
         }
     }
 }

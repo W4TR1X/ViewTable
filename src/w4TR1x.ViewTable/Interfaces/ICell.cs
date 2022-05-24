@@ -7,7 +7,7 @@ public interface ICell
 
     ICellStyle BaseStyle { get; set; }
 
-    List<ICellValue> Values { get; }
+    List<ICellPageValue> Values { get; }
 
     string Identifier { get; }
 
@@ -15,7 +15,7 @@ public interface ICell
 
     bool Hidden { get; set; }
 
-    public string Title { get; set; }
+    public string? Title { get; set; }
     int? CustomOrderValue { get; set; }
 
     int ColSpan { get; set; }
@@ -36,9 +36,11 @@ public interface ICell
         return result;
     }
 
-    ICellValue GetValue(int renderIndex);
-    dynamic GetOrderValue(int renderIndex);
-    string GetValueAsString(int renderIndex);
-    bool CanPopup();
+    ICellValue GetValue(int pageIndex);
+    dynamic GetOrderValue(int pageIndex);
+    string GetValueAsString(int pageIndex);
+    bool CanPopup(int pageIndex);
     bool IsHidden(bool calculating = false);
+
+    void SetStyle(ICellStyle refStyle);
 }

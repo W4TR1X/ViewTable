@@ -13,7 +13,7 @@ public class DoubleValue : CellValue<double>
     private readonly CultureInfo _cultureInfo;
 
     [JsonIgnore]
-    public string NumberFormat { get; private set; }
+    public string NumberFormat { get; private set; } = "0";
 
     public ValueEnum DecimalCount { get; }
     public ValueEnum ZeroDecimalCount { get; }
@@ -40,8 +40,6 @@ public class DoubleValue : CellValue<double>
 
     private void Init()
     {
-        NumberFormat = "0";
-
         var integerPart = (int)Math.Truncate(OriginalValue);
         var decimalPart = (float)(OriginalValue - integerPart);
 

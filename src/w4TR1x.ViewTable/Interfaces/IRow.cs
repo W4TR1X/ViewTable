@@ -16,6 +16,9 @@ public interface IRow
     bool Orderable { get; set; }
     List<double> CustomOrderValues { get; set; }
 
+    string? PopupTitle { get; set; }
+    string? PopupText { get; set; }
+
     void SetTable(Table table);
 
     [JsonIgnore]
@@ -41,13 +44,10 @@ public interface IRow
 
     bool CanPopup();
 
-    object GetValue(int cellIndex, int renderIndex);
-    object GetOrderValue(int cellIndex, int renderIndex);
+    dynamic GetValue(int cellIndex, int pageIndex);
+    dynamic GetOrderValue(int cellIndex, int pageIndex);
 
-    string PopupTitle { get; set; }
-    string PopupText { get; set; }
-
-    void OrderBy(int cellIndex, int renderIndex, bool desc = false);
+    void OrderBy(int cellIndex, int pageIndex, bool desc = false);
 
     void BeforeRender(int pageIndex);
 

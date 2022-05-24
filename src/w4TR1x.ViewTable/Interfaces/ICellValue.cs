@@ -2,7 +2,7 @@
 
 public interface ICellValue
 {
-    public object Value { get; }
+    public dynamic Value { get; }
 
     public string? StringValue()
     {
@@ -48,7 +48,7 @@ public interface ICellValue
 
     dynamic? GetValue() => IntValue() ?? DoubleValue() ?? (dynamic?)StringValue() ?? DateTimeValue() ?? null;
 
-    abstract object AsOrderValue();
+    abstract dynamic AsOrderValue();
 }
 
 public interface ICellValue<out T> : ICellValue
@@ -57,5 +57,5 @@ public interface ICellValue<out T> : ICellValue
 
     abstract T AsTypeOrderValue();
 
-    abstract string ToString();
+    abstract string? ToString();
 }
