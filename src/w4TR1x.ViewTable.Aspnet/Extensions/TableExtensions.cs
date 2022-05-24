@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using w4TR1x.ViewTable.Aspnet;
+using w4TR1x.ViewTable;
 
-namespace w4TR1x.ViewTable.Aspnet
+namespace w4TR1x.Aspnet.Extensions
 {
     public static class TableExtentions
     {

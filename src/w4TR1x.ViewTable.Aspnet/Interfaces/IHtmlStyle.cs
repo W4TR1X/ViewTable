@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Aspnet.Interfaces
+namespace w4TR1x.Aspnet.Interfaces
 {
     public interface IHtmlStyle : ICellStyle
     {

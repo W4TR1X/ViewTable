@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Aspnet.Interfaces
+namespace w4TR1x.Aspnet.Interfaces
 {
     public interface ICustomHtmlCell : ICell
     {

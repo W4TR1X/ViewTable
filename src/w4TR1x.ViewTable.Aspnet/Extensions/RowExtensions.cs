@@ -4,7 +4,7 @@ using System.Linq;
 using w4TR1x.ViewTable.Aspnet.Interfaces;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Aspnet
+namespace w4TR1x.Aspnet.Extensions
 {
     public static class RowExtensions
     {

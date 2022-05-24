@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using w4TR1x.ViewTable.Enums;
-using w4TR1x.ViewTable.Aspnet.Interfaces;
 using w4TR1x.ViewTable.Interfaces;
+using w4TR1x.Aspnet.Interfaces;
+using w4TR1x.ViewTable.Aspnet;
+using w4TR1x.Aspnet.Extensions;
 
-namespace w4TR1x.ViewTable.Aspnet
+namespace w4TR1x.Aspnet.Extensions
 {
     public static class CellExtensions
     {

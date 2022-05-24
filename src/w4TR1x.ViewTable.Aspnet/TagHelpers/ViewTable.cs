@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-using w4TR1x.ViewTable.Aspnet;
+using w4TR1x.Aspnet.Extensions;
+using w4TR1x.ViewTable;
 
-namespace w4TR1x.ViewTable.TagHelpers
+namespace w4TR1x.Aspnet.TagHelpers
 {
     [HtmlTargetElement("view-table", Attributes = nameof(Table), TagStructure = TagStructure.NormalOrSelfClosing)]
     public class ViewTableTagHelper : TagHelper
@@ -17,7 +18,7 @@ namespace w4TR1x.ViewTable.TagHelpers
                 output.SuppressOutput();
                 return;
             }
-            
+
             output.Content.SetHtmlContent(Table.Render(RenderIndex));
         }
     }
