@@ -4,5 +4,29 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="card-header">Test Table (Responsive & Vertical)</div>
-<view-table Table="@Model.TestTable"></view-table>
+<div class="card">
+    <div class="card-header">
+        Test Table (Responsive & Vertical)
+    </div>
+    <div class="card-body">
+        <view-table Table="@Model.TestTable"></view-table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Json
+    </div>
+    <div class="card-body">
+        @ViewBag.Json
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Test Table (After Serialize & Deserialize)
+    </div>
+    <div class="card-body">
+        <view-table Table="@ViewBag.modelFromJson"></view-table>
+    </div>
+</div>

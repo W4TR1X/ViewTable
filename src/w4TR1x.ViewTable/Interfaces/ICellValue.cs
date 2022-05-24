@@ -1,14 +1,61 @@
-﻿using System;
-using w4TR1x.ViewTable.Enums;
+﻿namespace w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Interfaces
+public interface ICellValue
 {
-    public interface ICellValue : IDisposable
+    public object Value { get; }
+
+    public string? StringValue()
     {
-        public object Value { get; }
+        if (Value is string result)
+        {
+            return result;
+        }
 
-        abstract string ToString();
-
-        abstract object AsOrderValue();
+        return null;
     }
+
+    public int? IntValue()
+    {
+        if (Value is int result)
+        {
+            return result;
+        }
+
+        return null;
+    }
+
+    public double? DoubleValue()
+    {
+        if (Value is double result)
+        {
+            return result;
+        }
+
+        return null;
+    }
+
+    public DateTime? DateTimeValue()
+    {
+        if (Value is DateTime result)
+        {
+            return result;
+        }
+
+        return null;
+    }
+
+    public abstract void Set(dynamic value);
+
+    dynamic? GetValue() => IntValue() ?? DoubleValue() ?? (dynamic?)StringValue() ?? DateTimeValue() ?? null;
+
+    abstract object AsOrderValue();
+}
+
+public interface ICellValue<out T> : ICellValue
+{
+    public T ResultValue { get; }
+
+    abstract T AsTypeOrderValue();
+
+    abstract string ToString();
 }

@@ -1,27 +1,59 @@
-﻿using System;
-using w4TR1x.ViewTable.Enums;
-using w4TR1x.ViewTable.Interfaces;
+﻿namespace w4TR1x.ViewTable.Values;
 
-namespace w4TR1x.ViewTable.Values
+[Serializable]
+public abstract class CellValue<T> : ICellValue<T>
 {
-    public abstract class CellValue<T> : ICellValue
+    public T ResultValue => (T)Value;
+
+    private bool _disposed = false;
+
+    public dynamic Value { get; protected set; }
+
+    public Type ValueType { get; private set; }
+
+    [JsonConstructor]
+    protected CellValue(dynamic value, Type valueType)
     {
-        public object Value { get; set; }
+        Value = value;
+        ValueType = valueType;
+    }
 
-        public Type valueType;
+    protected CellValue(T resultValue!!)
+    {
+        ValueType = resultValue.GetType();
+        Value = resultValue;
+    }
 
-        public CellValue(T value)
+    public abstract dynamic AsOrderValue();
+
+    public T AsTypeOrderValue() => ResultValue;
+
+    public void Set(dynamic value)
+    {
+        var result = Convert.ChangeType(value, ValueType);
+
+        if (result == null)
         {
-            valueType = value.GetType();
-            Value = value;
+            throw new ArgumentOutOfRangeException($"{nameof(value)} is {value.GetType()}, but it must be {Value.GetType()}");
         }
 
-        public abstract string ToString();
-        public abstract object AsOrderValue();
+        SetValue((T)result);
+    }
 
-        public void Dispose()
+    protected abstract void SetValue(T value);
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
         {
-
+            return;
         }
+
+        _disposed = true;
     }
 }

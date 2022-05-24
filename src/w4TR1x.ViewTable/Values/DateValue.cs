@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using w4TR1x.ViewTable.Enums;
+﻿namespace w4TR1x.ViewTable.Values;
 
-namespace w4TR1x.ViewTable.Values
+[Serializable]
+public class DateValue : CellValue<DateTime>
 {
-    public class DateValue : CellValue<DateTime>
+    public DateValue(DateTime resultValue) : base(resultValue)
     {
-        public DateValue(DateTime value) : base(value)
-        {
-        }
+    }
 
-        public override object AsOrderValue()
-        {
-            return ((DateTime)Value).ToBinary();
-        }
+    public override dynamic AsOrderValue()
+    {
+        return (ResultValue).ToBinary();
+    }
 
-        public override string ToString()
-        {
-            return ((DateTime)Value).ToString("dd/MM/yyyy");
-        }
+    public override string ToString()
+    {
+        return (ResultValue).ToString("dd/MM/yyyy");
+    }
+
+    protected override void SetValue(DateTime value)
+    {
+        Value = value;
     }
 }

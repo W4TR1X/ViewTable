@@ -1,109 +1,152 @@
-﻿using System;
-using System.Globalization;
-using w4TR1x.ViewTable.Enums;
+﻿using System.Globalization;
 
-namespace w4TR1x.ViewTable.Values
+namespace w4TR1x.ViewTable.Values;
+
+[Serializable]
+public class DoubleValue : CellValue<double>
 {
-    public class DoubleValue : CellValue<double>
+    public CalculateStyleEnum CalculateColumn { get; set; }
+
+    public double OriginalValue { get; private set; }
+
+    [JsonIgnore]
+    private readonly CultureInfo _cultureInfo;
+
+    [JsonIgnore]
+    public string NumberFormat { get; private set; }
+
+    public ValueEnum DecimalCount { get; }
+    public ValueEnum ZeroDecimalCount { get; }
+
+    public bool DisplayThousandSeparator { get; }
+    public bool AlwaysDisplayDecimals { get; }
+
+    [JsonConstructor]
+    public DoubleValue(double resultValue, ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
+                       bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false) : base(Math.Round(resultValue, (int)decimalCount))
     {
-        private readonly double _originalValue;
-        private readonly CultureInfo _cultureInfo;
+        OriginalValue = resultValue;
 
-        public string NumberFormat { get; private set; }
+        DecimalCount = decimalCount;
+        ZeroDecimalCount = zeroDecimalCount;
 
-        public DoubleValue(double value, ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
-                            bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false) : base(Math.Round(value, (int)decimalCount))
+        DisplayThousandSeparator = displayThousandSeparator;
+        AlwaysDisplayDecimals = alwaysDisplayDecimals;
+
+        _cultureInfo = new CultureInfo("tr-TR", false);
+
+        Init();
+    }
+
+    private void Init()
+    {
+        NumberFormat = "0";
+
+        var integerPart = (int)Math.Truncate(OriginalValue);
+        var decimalPart = (float)(OriginalValue - integerPart);
+
+        int tmpValue;
+
+        if (integerPart == 0 || AlwaysDisplayDecimals)
         {
-            _cultureInfo = new CultureInfo("tr-TR", false);
-
-            _originalValue = value;
-
-            NumberFormat = "0";
-
-            var integerPart = (int)Math.Truncate(_originalValue);
-            var decimalPart = (float)(_originalValue - integerPart);
-
-            int tmpValue;
-
-            if (integerPart == 0 || alwaysDisplayDecimals)
+            switch (ZeroDecimalCount)
             {
-                switch (zeroDecimalCount)
-                {
-                    case ValueEnum.Triple:
-                        tmpValue = (int)(decimalPart * 1000);
-                        if ((tmpValue <= -1 && tmpValue >= -9) || (tmpValue >= 1 && tmpValue <= 9) || alwaysDisplayDecimals)
-                        {
-                            _cultureInfo.NumberFormat.NumberDecimalDigits = 3;
-                            NumberFormat = "0.000";
-                            break;
-                        }
+                case ValueEnum.Auto:
+                case ValueEnum.Triple when AlwaysDisplayDecimals:
+                case ValueEnum.Double when AlwaysDisplayDecimals:
+                case ValueEnum.Single when AlwaysDisplayDecimals:
+
+                    tmpValue = (int)(decimalPart * 1000);
+                    if ((tmpValue <= -1 && tmpValue >= -9) || (tmpValue >= 1 && tmpValue <= 9) || (ZeroDecimalCount==ValueEnum.Triple && AlwaysDisplayDecimals))
+                    {
+                        goto case ValueEnum.Triple;
+                    }
+
+                    tmpValue = (int)(decimalPart * 100);
+                    if ((tmpValue <= -1 && tmpValue >= -9) || (tmpValue >= 1 && tmpValue <= 9) || (ZeroDecimalCount == ValueEnum.Double && AlwaysDisplayDecimals))
+                    {
                         goto case ValueEnum.Double;
-                    case ValueEnum.Double:
-                        tmpValue = (int)(decimalPart * 100);
-                        if ((tmpValue <= -1 && tmpValue >= -9) || (tmpValue >= 1 && tmpValue <= 9) || alwaysDisplayDecimals)
-                        {
-                            _cultureInfo.NumberFormat.NumberDecimalDigits = 2;
-                            NumberFormat = "0.00";
-                            break;
-                        }
+                    }
+
+                    tmpValue = (int)(decimalPart * 10);
+                    if ((tmpValue <= -1 && tmpValue >= -9) || (tmpValue >= 1 && tmpValue <= 9) || (ZeroDecimalCount == ValueEnum.Single && AlwaysDisplayDecimals))
+                    {
                         goto case ValueEnum.Single;
-                    case ValueEnum.Single:
-                        tmpValue = (int)(decimalPart * 10);
-                        if ((tmpValue <= -1 && tmpValue >= -9) || (tmpValue >= 1 && tmpValue <= 9) || alwaysDisplayDecimals)
-                        {
-                            _cultureInfo.NumberFormat.NumberDecimalDigits = 1;
-                            NumberFormat = "0.0";
-                            break;
-                        }
-                        goto default;
-                    default:
-                        _cultureInfo.NumberFormat.NumberDecimalDigits = 0;
-                        NumberFormat = "0";
-                        break;
-                }
+                    }
+
+                    goto default;
+
+                case ValueEnum.Triple:
+
+                    _cultureInfo.NumberFormat.NumberDecimalDigits = 3;
+                    NumberFormat = "0.000";
+                    break;
+
+                case ValueEnum.Double:
+
+                    _cultureInfo.NumberFormat.NumberDecimalDigits = 2;
+                    NumberFormat = "0.00";
+                    break;
+
+                case ValueEnum.Single:
+
+                    _cultureInfo.NumberFormat.NumberDecimalDigits = 1;
+                    NumberFormat = "0.0";
+                    break;
+
+                default:
+                    _cultureInfo.NumberFormat.NumberDecimalDigits = 0;
+                    NumberFormat = "0";
+                    break;
             }
-            else
+        }
+        else
+        {
+            switch (DecimalCount)
             {
-                switch (decimalCount)
-                {
-                    case ValueEnum.Triple:
-                        NumberFormat = "0.000";
-                        break;
-                    case ValueEnum.Double:
-                        NumberFormat = "0.00";
-                        break;
-                    case ValueEnum.Single:
-                        NumberFormat = "0.0";
-                        break;
-                    case ValueEnum.Int:
-                        NumberFormat = "0";
-                        break;
-                }
-                _cultureInfo.NumberFormat.NumberDecimalDigits = (int)decimalCount;
+                case ValueEnum.Triple:
+                    NumberFormat = "0.000";
+                    break;
+                case ValueEnum.Double:
+                    NumberFormat = "0.00";
+                    break;
+                case ValueEnum.Single:
+                    NumberFormat = "0.0";
+                    break;
+                case ValueEnum.Int:
+                    NumberFormat = "0";
+                    break;
             }
-
-            _cultureInfo.NumberFormat.NumberGroupSeparator = "";
-            if (displayThousandSeparator)
-            {
-                _cultureInfo.NumberFormat.NumberGroupSeparator = ".";
-                NumberFormat = "#,##" + NumberFormat;
-            }
-
-            Value = Math.Round(value, _cultureInfo.NumberFormat.NumberDecimalDigits);
+            _cultureInfo.NumberFormat.NumberDecimalDigits = (int)DecimalCount;
         }
 
-        public static DoubleValue Display3DecimalsWhenZeroWithSeparator(double value)
+        _cultureInfo.NumberFormat.NumberGroupSeparator = "";
+        if (DisplayThousandSeparator)
         {
-            return new DoubleValue(value, ValueEnum.Int, ValueEnum.Triple, true);
+            _cultureInfo.NumberFormat.NumberGroupSeparator = ".";
+            NumberFormat = "#,##" + NumberFormat;
         }
 
-        public override object AsOrderValue()
-        {
-            return _originalValue;
-        }
-        public override string ToString()
-        {
-            return ((double)Value).ToString("N", _cultureInfo);
-        }
+        Value = Math.Round(OriginalValue, _cultureInfo.NumberFormat.NumberDecimalDigits);
+    }
+
+    public static DoubleValue Display3DecimalsWhenZeroWithSeparator(double value)
+    {
+        return new DoubleValue(value, ValueEnum.Int, ValueEnum.Triple, true);
+    }
+
+    public override dynamic AsOrderValue()
+    {
+        return OriginalValue;
+    }
+    public override string ToString()
+    {
+        return ((double)Value).ToString("N", _cultureInfo);
+    }
+
+    protected override void SetValue(double value)
+    {
+        OriginalValue = value;
+        Init();
     }
 }

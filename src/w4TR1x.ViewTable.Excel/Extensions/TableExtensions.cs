@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
 using System;
 using System.Linq;
-using System.Reflection;
+using w4TR1x.ViewTable.Models;
 
 namespace w4TR1x.ViewTable.Excel
 {
@@ -39,9 +39,9 @@ namespace w4TR1x.ViewTable.Excel
             return null;
         }
 
-        public static ExcelWorksheet Render(this Table table, int renderIndex, Table.PageModel page, string topInfo, ExcelWorksheet sheet)
+        public static ExcelWorksheet Render(this Table table, int renderIndex, Page page, string topInfo, ExcelWorksheet sheet)
         {
-            var cellCount = table.Rows.First().CalculateCellArea();
+            var cellCount = table.GetFirstRow().CalculateCellArea();
 
             if (page.OrderBy >= 0)
             {
@@ -80,7 +80,7 @@ namespace w4TR1x.ViewTable.Excel
             return sheet;
         }
 
-        public static ExcelPackage Render(string topInfo, string title, string subject, params (Table Table, int RenderIndex, Table.PageModel Page, string PageName)[] pageTables)
+        public static ExcelPackage Render(string topInfo, string title, string subject, params (Table Table, int RenderIndex, Page Page, string PageName)[] pageTables)
         {
             var package = CreateExcelPackage(title, subject);
 

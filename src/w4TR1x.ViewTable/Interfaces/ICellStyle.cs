@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Interfaces
+public interface ICellStyle
 {
-    public interface ICellStyle : IDisposable
-    {
+    TextPositionEnum TextPosition { get; set; }
 
-    }
+    Color FontColor { get; set; }
+    Color BackgroundColor { get; set; }
+    Color BorderColor { get; set; }
 }
