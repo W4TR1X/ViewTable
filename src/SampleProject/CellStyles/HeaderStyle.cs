@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using w4TR1x.ViewTable.Enums;
 using w4TR1x.ViewTable.Interfaces;
+using Color = System.Drawing.Color;
 
-namespace Efesan.Aspnet.Common.CellStyles
+namespace SampleProject.CellStyles
 {
     public class HeaderStyle : HexelStyle
     {

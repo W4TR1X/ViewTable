@@ -3,6 +3,7 @@ using w4TR1x.ViewTable;
 using w4TR1x.ViewTable.Excel;
 using w4TR1x.ViewTable.Models;
 using System;
+using w4TR1x.Excel.Extensions;
 
 namespace SampleProject.Extensions;
 

@@ -1,4 +1,8 @@
-﻿namespace SampleProject;
+﻿using w4TR1x.Aspnet.Interfaces;
+using w4TR1x.Excel.Interfaces;
+using Color = System.Drawing.Color;
+
+namespace SampleProject.Cells;
 
 [Serializable]
 public abstract class CustomCell : Cell, ICustomHtmlCell, ICustomSheetCell

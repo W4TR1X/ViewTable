@@ -3,7 +3,7 @@ using OfficeOpenXml;
 using System.Collections.Generic;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace Efesan.Aspnet.Common.CellStyles
+namespace SampleProject.CellStyles
 {
     public class SperatorStyle : HexelStyle
     {

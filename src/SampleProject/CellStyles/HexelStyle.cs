@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using w4TR1x.ViewTable.Aspnet.Interfaces;
-using w4TR1x.ViewTable.Excel.Interfaces;
 using w4TR1x.ViewTable.Interfaces;
 using System.Collections.Generic;
 using w4TR1x.ViewTable.Values;
@@ -9,42 +7,14 @@ using OfficeOpenXml;
 using System;
 using OfficeOpenXml.Style;
 using w4TR1x.ViewTable.Enums;
+using w4TR1x.Aspnet.Interfaces;
+using w4TR1x.Excel.Interfaces;
 
-namespace Efesan.Aspnet.Common.CellStyles
+namespace SampleProject.CellStyles
 {
     public abstract class HexelStyle : ISheetStyle, IHtmlStyle
     {
         public abstract string NumberFormat { get; }
-
-        //public void CreateStyledCells(IRow row, params object[] cellValues)
-        //{
-        //    var values = new List<ICellValue>();
-        //    var styles = new List<ICellStyle>();
-
-        //    foreach (var param in cellValues)
-        //    {
-        //        if (param is string stringParam)
-        //        {
-        //            values.Add(new StringValue(stringParam));
-        //        }
-        //        else if (param is int intParam)
-        //        {
-        //            values.Add(new IntValue(intParam));
-        //        }
-        //        else if (param is DateTime dateParam)
-        //        {
-        //            values.Add(new DateValue(dateParam));
-        //        }
-        //        else
-        //        {
-        //            throw new ArgumentOutOfRangeException(nameof(param));
-        //        }
-
-        //        styles.Add(this);
-        //    }
-
-        //    row.AddCell(new Cell(values, styles));
-        //}
 
         #region EXCEL
 
@@ -81,7 +51,7 @@ namespace Efesan.Aspnet.Common.CellStyles
 
             var numberFormat = "General";
 
-            if(cellValue is DoubleValue doubleValue)
+            if (cellValue is DoubleValue doubleValue)
             {
                 numberFormat = doubleValue.NumberFormat;
             }
@@ -138,11 +108,6 @@ namespace Efesan.Aspnet.Common.CellStyles
             }
 
             return 0;
-        }
-
-        public void Dispose()
-        {
-
         }
     }
 }

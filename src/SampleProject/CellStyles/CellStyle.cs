@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
+using Color = System.Drawing.Color;
 
-namespace Efesan.Aspnet.Common.CellStyles
+namespace SampleProject.CellStyles
 {
     public static class CellStyle
     {
