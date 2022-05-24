@@ -3,12 +3,14 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using System;
 using System.Linq;
+using w4TR1x.Excel.Extensions;
+using w4TR1x.Excel.Interfaces;
 using w4TR1x.ViewTable.Enums;
-using w4TR1x.ViewTable.Excel.Interfaces;
+using w4TR1x.ViewTable.Excel;
 using w4TR1x.ViewTable.Interfaces;
 using w4TR1x.ViewTable.Values;
 
-namespace w4TR1x.ViewTable.Excel
+namespace w4TR1x.Excel.Extensions
 {
     public static class CellExtensions
     {

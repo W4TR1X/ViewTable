@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Excel.Interfaces
+namespace w4TR1x.Excel.Interfaces
 {
     public interface ICustomSheetCell : ICell
     {

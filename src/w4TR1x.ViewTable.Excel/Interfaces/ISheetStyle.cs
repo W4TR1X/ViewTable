@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Excel.Interfaces
+namespace w4TR1x.Excel.Interfaces
 {
     public interface ISheetStyle : ICellStyle
     {

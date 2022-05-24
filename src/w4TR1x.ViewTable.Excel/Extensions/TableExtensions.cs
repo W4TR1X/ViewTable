@@ -1,9 +1,10 @@
 ﻿using OfficeOpenXml;
 using System;
 using System.Linq;
+using w4TR1x.ViewTable;
 using w4TR1x.ViewTable.Models;
 
-namespace w4TR1x.ViewTable.Excel
+namespace w4TR1x.Excel.Extensions
 {
     public static class TableExtentions
     {

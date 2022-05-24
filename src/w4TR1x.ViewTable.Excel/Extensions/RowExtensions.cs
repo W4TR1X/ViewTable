@@ -1,9 +1,9 @@
 ﻿using OfficeOpenXml;
 using System.Linq;
-using w4TR1x.ViewTable.Excel.Interfaces;
+using w4TR1x.Excel.Interfaces;
 using w4TR1x.ViewTable.Interfaces;
 
-namespace w4TR1x.ViewTable.Excel
+namespace w4TR1x.Excel.Extensions
 {
     public static class RowExtensions
     {
