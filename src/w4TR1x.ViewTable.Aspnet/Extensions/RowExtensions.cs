@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 using w4TR1x.ViewTable.Aspnet.Interfaces;
-using w4TR1x.ViewTable.Interfaces;
+using w4TR1x.ViewTable.Interfaces.Rows;
 
 namespace w4TR1x.Aspnet.Extensions
 {

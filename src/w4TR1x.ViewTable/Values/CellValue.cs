@@ -1,4 +1,6 @@
-﻿namespace w4TR1x.ViewTable.Values;
+﻿using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
+
+namespace w4TR1x.ViewTable.Values;
 
 [Serializable]
 public abstract class CellValue<T> : ICellValue<T>

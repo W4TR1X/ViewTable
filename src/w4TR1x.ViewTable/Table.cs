@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using w4TR1x.ViewTable.Interfaces.Rows;
 
 namespace w4TR1x.ViewTable;
 

@@ -1,4 +1,6 @@
-﻿namespace w4TR1x.ViewTable
+﻿using w4TR1x.ViewTable.Interfaces.Rows.Cells.Styles;
+
+namespace w4TR1x.ViewTable
 {
     public class CellStyle : ICellStyle
     {

@@ -1,4 +1,4 @@
-﻿namespace w4TR1x.ViewTable.Interfaces;
+﻿namespace w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
 
 public interface ICellValue
 {

@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using w4TR1x.ViewTable.Enums;
-using w4TR1x.ViewTable.Interfaces;
+using w4TR1x.ViewTable.Interfaces.Rows;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
 using Color = System.Drawing.Color;
 
 namespace SampleProject.CellStyles

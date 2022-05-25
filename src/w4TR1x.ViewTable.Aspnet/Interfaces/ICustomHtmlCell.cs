@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w4TR1x.ViewTable.Interfaces;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells;
 
 namespace w4TR1x.Aspnet.Interfaces
 {

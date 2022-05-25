@@ -1,5 +1,8 @@
 ﻿using OfficeOpenXml;
-using w4TR1x.ViewTable.Interfaces;
+using w4TR1x.ViewTable.Interfaces.Rows;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells.Styles;
 
 namespace w4TR1x.Excel.Interfaces
 {

@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
 using System.Linq;
 using w4TR1x.Excel.Interfaces;
-using w4TR1x.ViewTable.Interfaces;
+using w4TR1x.ViewTable.Interfaces.Rows;
 
 namespace w4TR1x.Excel.Extensions
 {

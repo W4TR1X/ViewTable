@@ -1,4 +1,7 @@
-﻿using w4TR1x.ViewTable.Values;
+﻿using w4TR1x.ViewTable.Interfaces.Rows;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells;
+using w4TR1x.ViewTable.Interfaces.Rows.Cells.Styles;
+using w4TR1x.ViewTable.Values;
 
 namespace w4TR1x.ViewTable;
 
