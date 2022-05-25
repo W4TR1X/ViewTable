@@ -8,9 +8,8 @@ using OfficeOpenXml.Style;
 using w4TR1x.ViewTable.Enums;
 using w4TR1x.Aspnet.Interfaces;
 using w4TR1x.Excel.Interfaces;
-using w4TR1x.ViewTable.Interfaces.Rows;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
+using w4TR1x.ViewTable.Interfaces.Tables;
+using w4TR1x.ViewTable.Interfaces.Cells;
 
 namespace SampleProject.CellStyles
 {

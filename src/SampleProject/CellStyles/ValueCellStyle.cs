@@ -3,9 +3,8 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Drawing;
-using w4TR1x.ViewTable.Interfaces.Rows;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
+using w4TR1x.ViewTable.Interfaces.Cells;
+using w4TR1x.ViewTable.Interfaces.Tables;
 using Color = System.Drawing.Color;
 
 namespace SampleProject.CellStyles

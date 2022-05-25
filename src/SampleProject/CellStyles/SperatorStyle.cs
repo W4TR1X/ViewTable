@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using OfficeOpenXml;
 using System.Collections.Generic;
-using w4TR1x.ViewTable.Interfaces.Rows;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
+using w4TR1x.ViewTable.Interfaces.Cells;
+using w4TR1x.ViewTable.Interfaces.Tables;
 
 namespace SampleProject.CellStyles
 {

@@ -1,9 +1,6 @@
-﻿using w4TR1x.ViewTable.Interfaces.Rows;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.Styles;
+﻿using w4TR1x.ViewTable.Interfaces.Cells;
 
-namespace w4TR1x.ViewTable.Interfaces.Rows.Cells;
+namespace w4TR1x.ViewTable.Interfaces.Tables;
 
 public interface ICell
 {

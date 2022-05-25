@@ -4,7 +4,7 @@ using w4TR1x.ViewTable.Enums;
 using w4TR1x.Aspnet.Interfaces;
 using w4TR1x.ViewTable.Aspnet;
 using w4TR1x.Aspnet.Extensions;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells;
+using w4TR1x.ViewTable.Interfaces.Tables;
 
 namespace w4TR1x.Aspnet.Extensions
 {

@@ -5,7 +5,7 @@ namespace w4TR1x.Aspnet.Extensions
 {
     public static class TableExtentions
     {
-        public static TagBuilder Render(this Table table, int renderIndex)
+        public static TagBuilder Render(this ViewTable.Table table, int renderIndex)
         {
             if (table.Pages.Count > renderIndex)
             {

@@ -21,7 +21,7 @@ namespace w4TR1x.Excel.Extensions
             return package;
         }
 
-        public static ExcelPackage Render(this Table table, string topInfo, string title, string subject)
+        public static ExcelPackage Render(this ViewTable.Table table, string topInfo, string title, string subject)
         {
             var package = CreateExcelPackage(title, subject);
             if (table != null)
@@ -40,7 +40,7 @@ namespace w4TR1x.Excel.Extensions
             return null;
         }
 
-        public static ExcelWorksheet Render(this Table table, int renderIndex, Page page, string topInfo, ExcelWorksheet sheet)
+        public static ExcelWorksheet Render(this ViewTable.Table table, int renderIndex, Page page, string topInfo, ExcelWorksheet sheet)
         {
             var cellCount = table.GetFirstRow().CalculateCellArea();
 
@@ -81,7 +81,7 @@ namespace w4TR1x.Excel.Extensions
             return sheet;
         }
 
-        public static ExcelPackage Render(string topInfo, string title, string subject, params (Table Table, int RenderIndex, Page Page, string PageName)[] pageTables)
+        public static ExcelPackage Render(string topInfo, string title, string subject, params (ViewTable.Table Table, int RenderIndex, Page Page, string PageName)[] pageTables)
         {
             var package = CreateExcelPackage(title, subject);
 

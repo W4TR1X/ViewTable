@@ -1,7 +1,6 @@
-﻿using w4TR1x.ViewTable.Interfaces.Rows.Cells;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells.Styles;
+﻿using w4TR1x.ViewTable.Interfaces.Cells;
 
-namespace w4TR1x.ViewTable.Interfaces.Rows;
+namespace w4TR1x.ViewTable.Interfaces.Tables;
 
 public interface IRow
 {

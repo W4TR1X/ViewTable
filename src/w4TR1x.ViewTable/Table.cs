@@ -1,10 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using w4TR1x.ViewTable.Interfaces.Rows;
-
-namespace w4TR1x.ViewTable;
+﻿namespace w4TR1x.ViewTable;
 
 [Serializable]
-public class Table
+public class Table : ITable
 {
     public string Identifier { get; private set; } = null!;
     public bool Responsive { get; set; }
@@ -91,5 +88,12 @@ public class Table
         {
             Rows = Rows.OrderByDescending(x => x.GetOrderValue(cellIndex, pageIndex)).ToList();
         }
+    }
+
+    async Task<T?> ITable.Render<TOptions, T>(ITableRenderer<TOptions, T> renderer, int pageIndex, TOptions? rendererOptions)
+        where TOptions : class
+        where T : class
+    {
+        return await renderer.Render(this, pageIndex, rendererOptions);
     }
 }

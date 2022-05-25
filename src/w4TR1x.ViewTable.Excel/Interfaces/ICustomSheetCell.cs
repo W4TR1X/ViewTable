@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w4TR1x.ViewTable.Interfaces.Rows;
-using w4TR1x.ViewTable.Interfaces.Rows.Cells;
+using w4TR1x.ViewTable.Interfaces.Tables;
 
 namespace w4TR1x.Excel.Interfaces
 {

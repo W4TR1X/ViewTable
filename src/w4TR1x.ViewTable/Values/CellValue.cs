@@ -1,4 +1,4 @@
-﻿using w4TR1x.ViewTable.Interfaces.Rows.Cells.PageValues.Values;
+﻿using w4TR1x.ViewTable.Interfaces.Cells;
 
 namespace w4TR1x.ViewTable.Values;
 

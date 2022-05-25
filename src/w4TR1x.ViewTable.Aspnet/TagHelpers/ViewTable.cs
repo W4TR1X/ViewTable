@@ -7,7 +7,7 @@ namespace w4TR1x.Aspnet.TagHelpers
     [HtmlTargetElement("view-table", Attributes = nameof(Table), TagStructure = TagStructure.NormalOrSelfClosing)]
     public class ViewTableTagHelper : TagHelper
     {
-        public Table Table { get; set; }
+        public ViewTable.Table Table { get; set; }
 
         public int RenderIndex { get; set; }
 
