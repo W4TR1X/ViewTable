@@ -1,15 +1,16 @@
-﻿using w4TR1x.ViewTable.Interfaces.Cells;
+﻿using w4TR1x.ViewTable.Values;
 
 namespace w4TR1x.ViewTable;
 
 [Serializable]
-public class Cell : ICell
+public class Cell //: ICell
 {
     [JsonIgnore]
-    public IRow? Parent { get; set; } = null;
+    public Row? Parent { get; set; } = null;
 
-    public ICellStyle BaseStyle { get; set; }
-    public List<ICellPageValue> Values { get; } = new();
+    public CellStyle BaseStyle { get; set; }
+
+    public List<CellPageValue> Values { get; } = new();
 
     public string Identifier { get; }
     public bool Hidden { get; set; }
@@ -20,9 +21,7 @@ public class Cell : ICell
 
     public int RowSpan { get; set; }
 
-    [JsonIgnore]
     private int colSpan = 1;
-
     public int ColSpan
     {
         get
@@ -35,12 +34,26 @@ public class Cell : ICell
         }
     }
 
+    public int Index()
+    {
+        if (Parent == null) return -1;
+
+        var result = 0;
+
+        foreach (var cell in Parent.Cells)
+        {
+            if (cell == this) break;
+            result += cell.ColSpan;
+        }
+
+        return result;
+    }
+
     [JsonConstructor]
-    public Cell(ICellStyle baseStyle, List<ICellPageValue> values, string identifier,
+    public Cell(CellStyle baseStyle, List<CellPageValue> values, string identifier,
         bool hidden, string title, int? customOrderValue, bool noWrap, int rowSpan, int colSpan)
     {
         BaseStyle = baseStyle;
-
         Values = values;
         Identifier = identifier;
         Hidden = hidden;
@@ -51,7 +64,7 @@ public class Cell : ICell
         ColSpan = colSpan;
     }
 
-    public Cell(List<ICellValue> values, ICellStyle? style = null, string? identifier = null)
+    public Cell(List<CellValue> values, CellStyle? style = null, string? identifier = null)
     {
         BaseStyle = style ?? new CellStyle();
 
@@ -63,7 +76,7 @@ public class Cell : ICell
         }
     }
 
-    public Cell(List<ICellPageValue> values, ICellStyle style, string? identifier = null)
+    public Cell(List<CellPageValue> values, CellStyle style, string? identifier = null)
     {
         BaseStyle = style;
 
@@ -92,14 +105,14 @@ public class Cell : ICell
         }
     }
 
-    public ICellValue GetValue(int pageIndex)
+    public CellValue GetValue(int pageIndex)
     {
         if (Values.Count > pageIndex)
         {
             return Values[pageIndex].Value;
         }
 
-        return Values.First().Value;
+        return Values[0].Value;
     }
     public string GetValueAsString(int pageIndex)
     {
@@ -110,7 +123,7 @@ public class Cell : ICell
 
         return Values.FirstOrDefault()?.ToString() ?? string.Empty;
     }
-    public dynamic GetOrderValue(int pageIndex)
+    public dynamic? GetOrderValue(int pageIndex)
     {
         if (CustomOrderValue.HasValue)
         {
@@ -125,7 +138,7 @@ public class Cell : ICell
         return Values[0].AsOrderValue();
     }
 
-    public void SetStyle(ICellStyle refStyle)
+    public void SetStyle(CellStyle refStyle)
     {
         BaseStyle.FontColor = refStyle.FontColor ?? BaseStyle.FontColor;
         BaseStyle.BorderColor = refStyle.BorderColor ?? BaseStyle.BorderColor;

@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using OfficeOpenXml;
-using System.Collections.Generic;
-using w4TR1x.ViewTable.Interfaces.Cells;
-using w4TR1x.ViewTable.Interfaces.Tables;
-
-namespace SampleProject.CellStyles
+﻿namespace SampleProject.CellStyles
 {
     public class SperatorStyle : HexelStyle
     {
@@ -22,13 +16,13 @@ namespace SampleProject.CellStyles
 
         public override string NumberFormat => null;
 
-        protected override void RenderExcelStyle(ExcelRange selectedRange, IRow row, ICell cell, ICellValue cellValue)
+        protected override void RenderExcelStyle(ExcelRange selectedRange, Row row, Cell cell, CellValue cellValue)
         {
             selectedRange.Merge = true;
             selectedRange.Worksheet.Row(selectedRange.Start.Row).Height = SPERATOR_HEIGTH;
         }
 
-        public override void RenderHtmlStyle(TagBuilder tagBuilder, ICell cell, ICellValue cellValue)
+        public override void RenderHtmlStyle(TagBuilder tagBuilder, Cell cell, CellValue cellValue)
         {
             tagBuilder.Attributes.Add("style", $"height:{SPERATOR_HEIGTH}px;");
 

@@ -1,5 +1,4 @@
-﻿global using Efesan.Aspnet.Common.CellStyles;
-global using Microsoft.AspNetCore.Mvc;
+﻿global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.Logging;
 global using SampleProject.Extensions;
 global using SampleProject.Models;
@@ -15,5 +14,3 @@ global using w4TR1x.ViewTable.Values;
 global using Microsoft.AspNetCore.Mvc.Rendering;
 global using OfficeOpenXml;
 global using OfficeOpenXml.Style;
-global using w4TR1x.ViewTable.Aspnet.Interfaces;
-global using w4TR1x.ViewTable.Excel.Interfaces;

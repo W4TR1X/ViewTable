@@ -13,11 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		preview2.png = preview2.png
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable.Razor", "w4TR1x.ViewTable.Aspnet\w4TR1x.ViewTable.Razor.csproj", "{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable.RazorTagHelper", "w4TR1x.ViewTable.Aspnet\w4TR1x.ViewTable.RazorTagHelper.csproj", "{BFF40BF3-6F99-472E-AC21-C8BAC2DD9763}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable.Excel", "w4TR1x.ViewTable.Excel\w4TR1x.ViewTable.Excel.csproj", "{D5B496F5-19C9-44B3-91E7-9F150A9C9870}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus", "EPPlus\EPPlus.csproj", "{09637DA1-42A2-406A-966A-EB6C4D04F6B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "w4TR1x.ViewTable.Json", "w4TR1x.ViewTable.Json\w4TR1x.ViewTable.Json.csproj", "{F0A397F0-7E77-429B-B356-FF1237406E91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09637DA1-42A2-406A-966A-EB6C4D04F6B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A397F0-7E77-429B-B356-FF1237406E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A397F0-7E77-429B-B356-FF1237406E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A397F0-7E77-429B-B356-FF1237406E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A397F0-7E77-429B-B356-FF1237406E91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

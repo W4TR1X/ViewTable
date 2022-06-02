@@ -2,11 +2,14 @@
 
 namespace w4TR1x.ViewTable.Values;
 
-[Serializable]
 public class DoubleValue : CellValue<double>
 {
     public CalculateStyleEnum CalculateColumn { get; set; }
 
+    [JsonIgnore]
+    public override dynamic? Value { get => base.Value; protected set => base.Value = value; }
+
+    [JsonPropertyName("value")]
     public double OriginalValue { get; private set; }
 
     [JsonIgnore]
@@ -22,10 +25,11 @@ public class DoubleValue : CellValue<double>
     public bool AlwaysDisplayDecimals { get; }
 
     [JsonConstructor]
-    public DoubleValue(double resultValue, ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
-                       bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false) : base(Math.Round(resultValue, (int)decimalCount))
+    public DoubleValue(double value, ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
+                       bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false)
+        : base(Math.Round(value, (int)decimalCount))
     {
-        OriginalValue = resultValue;
+        OriginalValue = value;
 
         DecimalCount = decimalCount;
         ZeroDecimalCount = zeroDecimalCount;

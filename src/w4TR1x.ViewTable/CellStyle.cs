@@ -1,8 +1,6 @@
-﻿using w4TR1x.ViewTable.Interfaces.Cells;
-
-namespace w4TR1x.ViewTable
+﻿namespace w4TR1x.ViewTable
 {
-    public class CellStyle : ICellStyle
+    public class CellStyle
     {
         public TextPositionEnum? TextPosition { get; set; }
         public Color? FontColor { get; set; }

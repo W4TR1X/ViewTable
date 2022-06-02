@@ -1,15 +1,14 @@
 ﻿namespace w4TR1x.ViewTable.Values;
 
-[Serializable]
 public class DecoratedDoubleValue : DoubleValue
 {
-    public readonly string? BeforeText;
-    public readonly string? AfterText;
+    public string? BeforeText { get; }
+    public string? AfterText { get; }
 
-    public DecoratedDoubleValue(double resultValue, string? beforeText = null, string? afterText = null,
+    public DecoratedDoubleValue(double value, string? beforeText = null, string? afterText = null,
         ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
         bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false)
-        : base(resultValue, decimalCount, zeroDecimalCount, displayThousandSeparator, alwaysDisplayDecimals)
+        : base(value, decimalCount, zeroDecimalCount, displayThousandSeparator, alwaysDisplayDecimals)
     {
         BeforeText = beforeText;
         AfterText = afterText;

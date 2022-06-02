@@ -1,32 +1,29 @@
-﻿using w4TR1x.ViewTable.Interfaces.Cells;
-
-namespace w4TR1x.ViewTable.Values;
+﻿namespace w4TR1x.ViewTable.Values;
 
 [Serializable]
-public abstract class CellValue<T> : ICellValue<T>
+[JsonConverter(typeof(CellValueConverter))]
+public abstract class CellValue<T> : CellValue
 {
-    public T ResultValue => (T)Value;
+    [JsonIgnore]
+    public T? TypeValue { get; private set; }
 
-    public dynamic Value { get; protected set; }
+    public override dynamic? Value
+    {
+        get => TypeValue;
+        protected set => TypeValue = value;
+    }
 
-    public Type ValueType { get; private set; }
+    [JsonIgnore]
+    public Type ValueType => typeof(T);
 
     [JsonConstructor]
-    protected CellValue(dynamic value, Type valueType)
+    protected CellValue(T? value)
     {
         Value = value;
-        ValueType = valueType;
+        TypeValue = value;
     }
 
-    protected CellValue(T resultValue!!)
-    {
-        ValueType = resultValue.GetType();
-        Value = resultValue;
-    }
-
-    public abstract dynamic AsOrderValue();
-
-    public T AsTypeOrderValue() => ResultValue;
+    public T? AsTypeOrderValue() => TypeValue;
 
     public void Set(dynamic value)
     {
@@ -34,11 +31,24 @@ public abstract class CellValue<T> : ICellValue<T>
 
         if (result == null)
         {
-            throw new ArgumentOutOfRangeException($"{nameof(value)} is {value.GetType()}, but it must be {Value.GetType()}");
+            throw new ArgumentOutOfRangeException($"{nameof(value)} is {value.GetType()}, but it must be {ValueType}");
         }
 
         SetValue((T)result);
     }
 
     protected abstract void SetValue(T value);
+    public override dynamic? GetValue() => TypeValue;
+}
+
+[Serializable]
+[JsonConverter(typeof(CellValueConverter))]
+public abstract class CellValue
+{
+    //public abstract string Type { get; }
+
+    public virtual dynamic? Value { get; protected set; }
+
+    public virtual dynamic? GetValue() => Value;
+    public abstract dynamic? AsOrderValue();
 }

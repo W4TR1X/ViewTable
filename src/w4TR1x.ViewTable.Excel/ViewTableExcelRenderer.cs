@@ -1,4 +1,6 @@
-﻿namespace w4TR1x.Excel;
+﻿using w4TR1x.ViewTable.Abstract.Renderers;
+
+namespace w4TR1x.Excel;
 
 public class ViewTableExcelRenderer : TableRenderer<WorkbookOptions, ExcelPackage>
 {

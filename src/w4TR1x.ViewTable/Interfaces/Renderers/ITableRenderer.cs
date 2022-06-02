@@ -1,8 +1,8 @@
 ﻿namespace w4TR1x.ViewTable.Interfaces.Renderers;
 
 public interface ITableRenderer<TOptions, T>
-    where T : class
     where TOptions : class, ITableRendererOptions<T>
+    where T : class
 {
     public T? Content { get; set; }
 

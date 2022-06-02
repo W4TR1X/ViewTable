@@ -15,16 +15,16 @@
 
 <div class="card">
     <div class="card-header">
-        Json
+        System.Text.Json Serialize
     </div>
-    <div class="card-body">
+    <div class="card-body" style="height: 141px;overflow-y: auto;">
         @ViewBag.Json
     </div>
 </div>
 
 <div class="card">
     <div class="card-header">
-        Test Table (After Serialize & Deserialize)
+        Test Table After Deserialize
     </div>
     <div class="card-body">
         <view-table Table="@ViewBag.modelFromJson"></view-table>

@@ -6,8 +6,10 @@ global using w4TR1x.ViewTable.Helpers;
 global using w4TR1x.ViewTable.Enums;
 global using System.Text.Json.Serialization;
 
-global using w4TR1x.ViewTable.Interfaces.Tables;
+//global using w4TR1x.ViewTable.Interfaces.Tables;
 
 global using w4TR1x.ViewTable.Interfaces.Renderers;
 
 global using System.Threading.Tasks;
+
+global using w4TR1x.ViewTable.Json;

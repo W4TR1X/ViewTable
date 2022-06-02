@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using w4TR1x.ViewTable;
-using w4TR1x.ViewTable.Excel;
-using w4TR1x.ViewTable.Models;
-using System;
-using w4TR1x.Excel.Extensions;
-
-namespace SampleProject.Extensions;
+﻿namespace SampleProject.Extensions;
 
 public static class TableExtension
 {
@@ -13,13 +6,15 @@ public static class TableExtension
     {
         var date = DateTime.Now;
 
-        var fileByteArray = table.Render(HeaderText, title, subject).GetAsByteArray();
+        throw new NotImplementedException();
 
-        return new FileContentResult(fileByteArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        {
-            FileDownloadName = $"{title} - {date:yyyyMMddhhmmss}.xlsx",
-            LastModified = date
-        };
+        //var fileByteArray = table.Render(HeaderText, title, subject).GetAsByteArray();
+
+        //return new FileContentResult(fileByteArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        //{
+        //    FileDownloadName = $"{title} - {date:yyyyMMddhhmmss}.xlsx",
+        //    LastModified = date
+        //};
     }
 
     public static FileContentResult ToExcelFileResult(string HeaderText, string title, string subject,
@@ -27,12 +22,14 @@ public static class TableExtension
     {
         var date = DateTime.Now;
 
-        var fileByteArray = TableExtentions.Render(HeaderText, title, subject, pageTables).GetAsByteArray();
+        throw new NotImplementedException();
 
-        return new FileContentResult(fileByteArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        {
-            FileDownloadName = $"{title} - {date:yyyyMMddhhmmss}.xlsx",
-            LastModified = date
-        };
+        //var fileByteArray = TableExtentions.Render(HeaderText, title, subject, pageTables).GetAsByteArray();
+
+        //return new FileContentResult(fileByteArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        //{
+        //    FileDownloadName = $"{title} - {date:yyyyMMddhhmmss}.xlsx",
+        //    LastModified = date
+        //};
     }
 }

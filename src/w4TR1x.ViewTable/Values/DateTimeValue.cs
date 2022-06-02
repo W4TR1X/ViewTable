@@ -1,11 +1,8 @@
 ﻿namespace w4TR1x.ViewTable.Values;
 
-[Serializable]
 public class DateTimeValue : DateValue
 {
-    public DateTimeValue(DateTime resultValue) : base(resultValue)
-    {
-    }
+    public DateTimeValue(DateTime value) : base(value) { }
 
     public override string ToString()
     {

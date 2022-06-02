@@ -1,11 +1,10 @@
 ﻿namespace w4TR1x.ViewTable.Values;
 
-[Serializable]
 public class StringValue : CellValue<string>
 {
-    public StringValue(string resultValue) : base(resultValue)
+    public StringValue(string? value) : base(value)
     {
-        Value = resultValue.Replace("\n", "\r\n" );
+        Value = value?.Replace("\n", "\r\n" );
     }
 
     public static StringValue Empty()
@@ -37,6 +36,6 @@ public class StringValue : CellValue<string>
 
     public override string ToString()
     {
-        return ResultValue;
+        return TypeValue ?? string.Empty;
     }
 }

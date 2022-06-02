@@ -1,6 +1,6 @@
-﻿namespace w4TR1x.ViewTable.Razor.Options;
+﻿namespace w4TR1x.ViewTable.RazorTagHelper.Options;
 
-public class RazorOptions : ITableRendererOptions<object>
+public class RazorOptions : ITableRendererOptions<TagBuilder>
 {
     //public string? Title { get; set; }
     //public string? Author { get; set; }
@@ -9,11 +9,11 @@ public class RazorOptions : ITableRendererOptions<object>
     //public string? Category { get; set; }
     //public DateTime? CreatedAt { get; set; }
 
-    public object Initialize(ITableRendererOptions<object>? baseOptions)
+    public TagBuilder Initialize(ITableRendererOptions<TagBuilder>? baseOptions)
     {
         var options = baseOptions as RazorOptions;
 
-        var package = new object();
+        var package = new TagBuilder("view-table");
         //package.Workbook.Properties.Title = options?.Title ?? Title;
         //package.Workbook.Properties.Author = options?.Author ?? Author;
         //package.Workbook.Properties.Created = options?.CreatedAt ?? CreatedAt ?? DateTime.Now;

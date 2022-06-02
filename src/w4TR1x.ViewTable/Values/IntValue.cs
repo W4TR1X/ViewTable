@@ -1,11 +1,9 @@
 ﻿namespace w4TR1x.ViewTable.Values;
 
-[Serializable]
 public class IntValue : CellValue<int>
 {
-    public IntValue(int resultValue) : base(resultValue)
-    {
-    }
+    public IntValue(int value) : base(value)
+    {    }
 
     protected override void SetValue(int value)
     {
@@ -18,13 +16,13 @@ public class IntValue : CellValue<int>
     }
 
 
-    public override dynamic AsOrderValue()
+    public override dynamic? AsOrderValue()
     {
         return Value;
     }
 
     public override string ToString()
     {
-        return Value.ToString();
+        return Value?.ToString() ?? string.Empty;
     }
 }

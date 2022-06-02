@@ -1,7 +1,7 @@
 ﻿namespace w4TR1x.ViewTable;
 
 [Serializable]
-public class Table : ITable
+public class Table //: ITable
 {
     public string Identifier { get; private set; } = null!;
     public bool Responsive { get; set; }
@@ -11,15 +11,15 @@ public class Table : ITable
 
     public List<Page> Pages { get; private set; } = new();
 
-    public List<IRow> Rows { get; set; } = new();
+    public List<Row> Rows { get; set; } = new();
 
-    public IRow? GetFirstRow() => Rows.FirstOrDefault();
+    public Row? GetFirstRow() => Rows.FirstOrDefault();
 
-    public IRow? GetLastRow() => Rows.LastOrDefault();
+    public Row? GetLastRow() => Rows.LastOrDefault();
 
     [JsonConstructor]
-    private Table(string identifier, bool responsive, bool useVerticalTable, bool stripped,
-        int fixedColumnCount, List<Page> pages, List<IRow> rows)
+    public Table(string identifier, bool responsive, bool useVerticalTable, bool stripped,
+        int fixedColumnCount, List<Page> pages, List<Row> rows)
     {
         Identifier = identifier;
         Responsive = responsive;
@@ -70,7 +70,7 @@ public class Table : ITable
         Identifier = IdentityHelper.CreateIfNull(identifier, "t");
     }
 
-    public void AddRow(IRow row)
+    public void AddRow(Row row)
     {
         row.SetTable(this);
         Rows.Add(row);
@@ -90,10 +90,6 @@ public class Table : ITable
         }
     }
 
-    async Task<T?> ITable.Render<TOptions, T>(ITableRenderer<TOptions, T> renderer, int pageIndex, TOptions? rendererOptions)
-        where TOptions : class
-        where T : class
-    {
-        return await renderer.Render(this, pageIndex, rendererOptions);
-    }
+    public Task<T?> Render<TOptions, T>(ITableRenderer<TOptions, T> renderer, int pageIndex, TOptions? rendererOptions) where T : class where TOptions : class, ITableRendererOptions<T>
+        => renderer.Render(this, pageIndex, rendererOptions);
 }

@@ -1,20 +1,19 @@
-﻿using w4TR1x.ViewTable.Interfaces.Cells;
-using w4TR1x.ViewTable.Values;
+﻿using w4TR1x.ViewTable.Values;
 
 namespace w4TR1x.ViewTable;
 
 [Serializable]
-public class Row : IRow
+public class Row
 {
     [JsonIgnore]
-    public IRow Parent { get; set; } = null!;
+    public Row? Parent { get; set; } = null!;
 
     [JsonIgnore]
     public Table Table { get; private set; } = null!;
 
-    public List<IRow> Rows { get; private set; }
-    public List<ICell> Cells { get; }
-    public List<ICellStyle> Styles { get; set; }
+    public List<Row> Rows { get; private set; }
+    public List<Cell> Cells { get; }
+    public List<CellStyle> Styles { get; set; }
     public bool Orderable { get; set; }
     public List<double> CustomOrderValues { get; set; }
     public bool Collapsable { get; set; }
@@ -26,8 +25,8 @@ public class Row : IRow
     public string? PopupText { get; set; }
 
     [JsonConstructor]
-    public Row(List<IRow> rows, List<ICell> cells, List<ICellStyle> styles, bool orderable, List<double> customOrderValues,
-        bool collapsable, bool collapsed, string ıdentifier, RowEnum rowType, string popupTitle, string popupText)
+    public Row(List<Row> rows, List<Cell> cells, List<CellStyle> styles, bool orderable, List<double> customOrderValues,
+        bool collapsable, bool collapsed, string identifier, RowEnum rowType, string popupTitle, string popupText)
     {
         Rows = rows;
         Cells = cells;
@@ -36,7 +35,7 @@ public class Row : IRow
         CustomOrderValues = customOrderValues;
         Collapsable = collapsable;
         Collapsed = collapsed;
-        Identifier = ıdentifier;
+        Identifier = identifier;
         RowType = rowType;
         PopupTitle = popupTitle;
         PopupText = popupText;
@@ -50,7 +49,7 @@ public class Row : IRow
         }
         else
         {
-            Cells = new List<ICell>();
+            Cells = new List<Cell>();
         }
 
         if (Rows != null)
@@ -62,7 +61,7 @@ public class Row : IRow
         }
         else
         {
-            Rows = new List<IRow>();
+            Rows = new List<Row>();
         }
     }
 
@@ -72,13 +71,13 @@ public class Row : IRow
 
         CustomOrderValues = new List<double>();
 
-        Styles = new List<ICellStyle>();
+        Styles = new List<CellStyle>();
 
         RowType = type;
         Identifier = IdentityHelper.CreateIfNull(identifier, "r");
 
-        Cells = new List<ICell>();
-        Rows = new List<IRow>();
+        Cells = new List<Cell>();
+        Rows = new List<Row>();
     }
 
     public int Index()
@@ -96,28 +95,28 @@ public class Row : IRow
         return (PopupTitle != null && PopupTitle.Any()) || (PopupText != null && PopupText.Any());
     }
 
-    public IRow UpdateColSpan(int colspan)
+    public Row UpdateColSpan(int colspan)
     {
         Cells.Last().ColSpan = colspan;
 
         return this;
     }
 
-    public IRow UpdateRowSpan(int rowspan)
+    public Row UpdateRowSpan(int rowspan)
     {
         Cells.Last().RowSpan = rowspan;
 
         return this;
     }
 
-    public IRow UpdateTitle(string title)
+    public Row UpdateTitle(string title)
     {
         Cells.Last().Title = title;
 
         return this;
     }
 
-    public IRow UpdateTextPosition(TextPositionEnum position)
+    public Row UpdateTextPosition(TextPositionEnum position)
     {
         var cell = Cells.Last();
 
@@ -134,7 +133,7 @@ public class Row : IRow
         return this;
     }
 
-    public IRow UpdateCellPopup(string popupTitle, string popupText)
+    public Row UpdateCellPopup(string popupTitle, string popupText)
     {
         var cell = Cells.Last();
 
@@ -147,14 +146,14 @@ public class Row : IRow
         return this;
     }
 
-    public IRow UpdateWrap(bool noWrap = true)
+    public Row UpdateWrap(bool noWrap = true)
     {
         Cells.Last().NoWrap = noWrap;
 
         return this;
     }
 
-    public IRow AddCell(ICell cell)
+    public Row AddCell(Cell cell)
     {
         if (Rows.Count > 0)
             throw new ArgumentOutOfRangeException(nameof(cell), "Don't add cells after rows!");
@@ -165,7 +164,7 @@ public class Row : IRow
         return this;
     }
 
-    public IRow AddCells(params ICell[] cells)
+    public Row AddCells(params Cell[] cells)
     {
         if (Rows.Count > 0)
             throw new ArgumentOutOfRangeException(nameof(cells), "Don't add cells after rows!");
@@ -189,7 +188,7 @@ public class Row : IRow
         }
     }
 
-    public IRow AddRow(IRow row)
+    public Row AddRow(Row row)
     {
         var thisCellCount = CalculateCellArea();
         var rowCellCount = row.CalculateCellArea();
@@ -205,7 +204,7 @@ public class Row : IRow
         return this;
     }
 
-    public string GetTitleFor(ICell cell)
+    public string GetTitleFor(Cell cell)
     {
         if (cell.Title != null) return cell.Title;
 
@@ -217,7 +216,7 @@ public class Row : IRow
     {
         if (RowType == RowEnum.Header)
         {
-            ICell? cell = null;
+            Cell? cell = null;
 
             var cellId = 0;
             var cellIndex = -1;
@@ -280,7 +279,7 @@ public class Row : IRow
     }
 
 
-    public ICell GetCell(int cellIndex)
+    public Cell GetCell(int cellIndex)
     {
         var totalCellArea = CalculateCellArea();
 
@@ -313,7 +312,7 @@ public class Row : IRow
         throw new ArgumentOutOfRangeException(nameof(cellIndex));
     }
 
-    public dynamic GetOrderValue(int cellIndex, int pageIndex)
+    public dynamic? GetOrderValue(int cellIndex, int pageIndex)
     {
 
         if (CustomOrderValues.Count > pageIndex)
@@ -366,7 +365,7 @@ public class Row : IRow
 
         foreach (var cell in Cells)
         {
-            if (cell.Values.Count > pageIndex && cell.Values[pageIndex] is DoubleValue dValue && dValue.CalculateColumn != CalculateStyleEnum.None)
+            if (cell.Values.Count > pageIndex && cell.Values[pageIndex].Value is DoubleValue dValue && dValue.CalculateColumn != CalculateStyleEnum.None)
             {
                 var retValue = CalculateFromColumn(pageIndex, cell, Rows, dValue.CalculateColumn, 0);
                 dValue.Set(retValue);
@@ -374,7 +373,7 @@ public class Row : IRow
         }
     }
 
-    private double CalculateFromColumn(int pageIndex, ICell cell, IList<IRow> rows, CalculateStyleEnum calculateStyle, double retValue)
+    private double CalculateFromColumn(int pageIndex, Cell cell, IList<Row> rows, CalculateStyleEnum calculateStyle, double retValue)
     {
         foreach (var row in rows)
         {
@@ -386,7 +385,7 @@ public class Row : IRow
             }
             else
             {
-                if (rCell.Values.Count > pageIndex && rCell.Values[pageIndex] is DoubleValue rValue)
+                if (rCell.Values.Count > pageIndex && rCell.Values[pageIndex].Value is DoubleValue rValue)
                 {
                     retValue += calculateStyle switch
                     {

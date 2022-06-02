@@ -1,7 +1,7 @@
 ﻿namespace w4TR1x.ViewTable.Models;
 
 [Serializable]
-public class Page
+public record Page
 {
     public string PageName { get; set; }
 

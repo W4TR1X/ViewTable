@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using w4TR1x.ViewTable.Enums;
-using w4TR1x.ViewTable.Interfaces.Cells;
-using w4TR1x.ViewTable.Interfaces.Tables;
-using Color = System.Drawing.Color;
+﻿using Color = System.Drawing.Color;
 
 namespace SampleProject.CellStyles
 {
@@ -25,7 +16,7 @@ namespace SampleProject.CellStyles
         Color borderColor = Color.FromArgb(128, 128, 128);
         Color bgColor = Color.FromArgb(252, 255, 180);
 
-        protected override void RenderExcelStyle(ExcelRange selectedRange, IRow row, ICell cell, ICellValue cellValue)
+        protected override void RenderExcelStyle(ExcelRange selectedRange, Row row, Cell cell, CellValue cellValue)
         {
             selectedRange.Style.Border.BorderAround(ExcelBorderStyle.Medium, borderColor);
             selectedRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -35,12 +26,12 @@ namespace SampleProject.CellStyles
             selectedRange.Worksheet.Row(selectedRange.Start.Row).Height = 20;
         }
 
-        public override void RenderHtmlStyle(TagBuilder tagBuilder, ICell cell, ICellValue cellValue)
+        public override void RenderHtmlStyle(TagBuilder tagBuilder, Cell cell, CellValue cellValue)
         {
-            if (cell.TextPosition != TextPositionEnum.Center)
-            {
-                htmlClassList.Remove("center");
-            }
+            //if (cell.TextPosition != TextPositionEnum.Center)
+            //{
+            //    htmlClassList.Remove("center");
+            //}
 
             foreach (var htmlClass in htmlClassList)
             {

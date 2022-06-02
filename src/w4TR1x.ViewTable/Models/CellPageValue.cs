@@ -1,24 +1,24 @@
-﻿using w4TR1x.ViewTable.Interfaces.Cells;
+﻿using w4TR1x.ViewTable.Values;
 
 namespace w4TR1x.ViewTable.Models;
 
 [Serializable]
-public class CellPageValue : ICellPageValue
+public class CellPageValue
 {
-    public ICellValue Value { get; set; }
-    public ICellStyle? Style { get; set; }
+    public CellValue Value { get; set; }
+    public CellStyle? Style { get; set; }
 
     public string? PopupTitle { get; set; }
     public string? PopupText { get; set; }
 
-    public CellPageValue(ICellValue value, ICellStyle? style)
+    public CellPageValue(CellValue value, CellStyle? style)
     {
         Value = value;
         Style = style;
     }
 
-    public dynamic AsOrderValue()
+    public dynamic? AsOrderValue()
     {
-        return Value.AsOrderValue();
+        return Value?.AsOrderValue();
     }
 }

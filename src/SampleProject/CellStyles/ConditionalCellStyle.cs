@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.Drawing;
-using w4TR1x.ViewTable.Interfaces.Cells;
-using w4TR1x.ViewTable.Interfaces.Tables;
-using Color = System.Drawing.Color;
+﻿using Color = System.Drawing.Color;
 
 namespace SampleProject.CellStyles
 {
@@ -32,7 +26,7 @@ namespace SampleProject.CellStyles
 
         }
 
-        protected override void RenderExcelStyle(ExcelRange selectedRange, IRow row, ICell cell, ICellValue cellValue)
+        protected override void RenderExcelStyle(ExcelRange selectedRange, Row row, Cell cell, CellValue cellValue)
         {
             base.RenderExcelStyle(selectedRange, row, cell, cellValue);
 
@@ -66,7 +60,7 @@ namespace SampleProject.CellStyles
             }
         }
 
-        public override void RenderHtmlStyle(TagBuilder tagBuilder, ICell cell, ICellValue cellValue)
+        public override void RenderHtmlStyle(TagBuilder tagBuilder, Cell cell, CellValue cellValue)
         {
             base.RenderHtmlStyle(tagBuilder, cell, cellValue);
 

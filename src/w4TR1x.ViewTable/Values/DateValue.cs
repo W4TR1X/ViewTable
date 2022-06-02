@@ -1,20 +1,17 @@
 ﻿namespace w4TR1x.ViewTable.Values;
 
-[Serializable]
 public class DateValue : CellValue<DateTime>
 {
-    public DateValue(DateTime resultValue) : base(resultValue)
-    {
-    }
+    public DateValue(DateTime value) : base(value) { }
 
     public override dynamic AsOrderValue()
     {
-        return (ResultValue).ToBinary();
+        return (TypeValue).ToBinary();
     }
 
     public override string ToString()
     {
-        return (ResultValue).ToString("dd/MM/yyyy");
+        return (TypeValue).ToString("dd/MM/yyyy");
     }
 
     protected override void SetValue(DateTime value)

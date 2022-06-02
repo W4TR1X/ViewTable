@@ -1,6 +1,7 @@
 ﻿namespace w4TR1x.ViewTable.Models;
 
-public class Color
+[Serializable]
+public record Color
 {
     public byte Red { get; set; }
     public byte Green { get; set; }

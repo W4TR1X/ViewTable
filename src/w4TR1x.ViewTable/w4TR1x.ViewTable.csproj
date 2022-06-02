@@ -8,8 +8,22 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Interfaces\Cells\ICellStyle.cs" />
+	  <Compile Remove="Interfaces\Cells\ICellValue.cs" />
+	  <Compile Remove="Interfaces\Tables\ICell.cs" />
+	  <Compile Remove="Interfaces\Tables\ICellPageValue.cs" />
+	  <Compile Remove="Interfaces\Tables\IRow.cs" />
+	  <Compile Remove="Interfaces\Tables\ITable.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Interfaces\Cells\" />
+	  <Folder Include="Interfaces\Tables\" />
 	</ItemGroup>
 
 </Project>
