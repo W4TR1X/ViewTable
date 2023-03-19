@@ -99,6 +99,9 @@ public class HomeController : Controller
                     .AddCell(new Cell(values: new List<CellValue> { new DateValue(DateTime.Now) }))
                     .AddCell(new Cell(values: new List<CellValue> { new DateTimeValue(DateTime.Now) }))));
 
+        model.TestTable.GetFirstRow().Collapsable = true;
+        model.TestTable.GetFirstRow().Collapsed = true;
+
         var jsonSerializeOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
         {
             //WriteIndented = true,

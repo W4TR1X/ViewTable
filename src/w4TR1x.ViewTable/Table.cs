@@ -40,6 +40,7 @@ public class Table //: ITable
             foreach (var row in rows)
             {
                 this.Rows.Add(row);
+                row.SetTable(this);
             }
         }
     }

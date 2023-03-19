@@ -118,10 +118,10 @@ public class Cell //: ICell
     {
         if (Values.Count > pageIndex)
         {
-            return Values[pageIndex].ToString() ?? string.Empty;
+            return Values[pageIndex].Value.ToString() ?? string.Empty;
         }
 
-        return Values.FirstOrDefault()?.ToString() ?? string.Empty;
+        return Values.FirstOrDefault()?.Value?.ToString() ?? string.Empty;
     }
     public dynamic? GetOrderValue(int pageIndex)
     {
@@ -146,5 +146,15 @@ public class Cell //: ICell
         BaseStyle.BackgroundColor = refStyle.BackgroundColor ?? BaseStyle.BackgroundColor;
 
         //TODO: make better implementation
+    }
+
+    public CellStyle GetStyle(int pageIndex)
+    {
+        if (Values.Count > pageIndex)
+        {
+            return Values[pageIndex].Style ?? BaseStyle;
+        }
+
+        return BaseStyle;
     }
 }

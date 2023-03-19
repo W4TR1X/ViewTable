@@ -1,0 +1,40 @@
+﻿@using System.Text;
+@inherits ComponentBase
+
+@if (Table != null)
+{
+    var page = Table.Pages[PageIndex];
+    if (page.OrderBy > -1)
+    {
+        Table.OrderBy(page.OrderBy, PageIndex, page.DescendingOrder);
+    }
+
+    <div id="@(Table.UseVerticalTable?"no-more-tables":"")" class="tab-pane fade show active">
+        <table id="@Table.Identifier" class="@GenerateCssClass()">
+            @foreach (var row in Table.Rows)
+            {
+                <RowComponent Row="row" PageIndex="PageIndex" />
+            }
+        </table>
+    </div>
+}
+
+@code {
+    [Parameter] public Table? Table { get; set; }
+    [Parameter] public int PageIndex { get; set; }
+
+    string GenerateCssClass()
+    {
+        var sb = new StringBuilder();
+        sb.Append("table table-bordered table-hover small col-md-12 table-condensed cf mb-0");
+
+        if (Table!.Stripped)
+        {
+            sb.Append(" table-striped");
+        }
+
+        if (!Table!.Responsive) sb.Append(" w-auto");
+
+        return sb.ToString();
+    }
+}

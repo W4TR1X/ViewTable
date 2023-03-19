@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable.Excel", "w
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus", "EPPlus\EPPlus.csproj", "{09637DA1-42A2-406A-966A-EB6C4D04F6B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "w4TR1x.ViewTable.Json", "w4TR1x.ViewTable.Json\w4TR1x.ViewTable.Json.csproj", "{F0A397F0-7E77-429B-B356-FF1237406E91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable.Json", "w4TR1x.ViewTable.Json\w4TR1x.ViewTable.Json.csproj", "{F0A397F0-7E77-429B-B356-FF1237406E91}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "w4TR1x.ViewTable.Blazor", "w4TR1x.ViewTable.Blazor\w4TR1x.ViewTable.Blazor.csproj", "{E37E2AE8-614A-49B3-9C93-E60B1074D15D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F0A397F0-7E77-429B-B356-FF1237406E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0A397F0-7E77-429B-B356-FF1237406E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0A397F0-7E77-429B-B356-FF1237406E91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E37E2AE8-614A-49B3-9C93-E60B1074D15D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E37E2AE8-614A-49B3-9C93-E60B1074D15D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E37E2AE8-614A-49B3-9C93-E60B1074D15D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E37E2AE8-614A-49B3-9C93-E60B1074D15D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

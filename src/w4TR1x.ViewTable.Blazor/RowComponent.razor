@@ -1,0 +1,97 @@
+﻿@using System.Text;
+@if (Row != null)
+{
+    if(!Row.Collapsed && Row.RowType == Enums.RowEnum.BottomRecord)
+    {
+        foreach (var row in Row.Rows)
+        {
+            <RowComponent Row="row" PageIndex="PageIndex" />
+        }
+    }
+    <tr @attributes="GenerateAttributes()" @onclick="Clicked">
+        @foreach (var cell in Row.Cells)
+        {
+            <CellComponent Cell="cell" PageIndex="PageIndex" />
+        }
+    </tr>
+    if (!Row.Collapsed && Row.RowType != Enums.RowEnum.BottomRecord)
+    {
+        foreach (var row in Row.Rows)
+        {
+            <RowComponent Row="row" PageIndex="PageIndex" />
+        }
+    }    
+}
+
+@code {
+    [Parameter] public Row? Row { get; set; }
+    [Parameter] public int PageIndex { get; set; }
+
+    public void Clicked(MouseEventArgs eventArgs)
+    {
+        if(Row!.Collapsable && eventArgs.Button == 0)
+        {
+            Row.Collapsed = !Row.Collapsed;
+            StateHasChanged();
+        }
+    }
+
+    List<KeyValuePair<string, object>> GenerateAttributes()
+    {
+        var attributes = new List<KeyValuePair<string, object>>();
+        var sb = new StringBuilder();
+
+        attributes.Add(new("id", Row!.Identifier));
+
+        sb.Append("vt-rl"); sb.Append(Row!.Index());
+
+        if (Row.Collapsable && Row.Rows.Any())
+        {
+            sb.Append(" cursor-hand");
+
+            //attributes.Add(new("data-target", $".{row.Identifier}"));
+            attributes.Add(new("data-toggle", "collapse"));
+        }
+
+        if (Row.Parent != null)
+        {
+            if (Row.Parent.Collapsable)
+            {
+                sb.Append(" ");
+                sb.Append(Row.Parent.Identifier);
+            }
+
+            if (Row.Parent.Collapsed)
+            {
+                sb.Append(" collapse");
+            }
+        }
+
+        if (Row.Collapsed)
+        {
+            sb.Append(" collapsed");
+        }
+
+        if (Row.CanPopup())
+        {
+            if (Row.Collapsable)
+            {
+                throw new Exception("Don't use Collapsable and PopupText or PopupTitle together.");
+            }
+
+            attributes.Add(new("data-toggle", "popover"));
+            attributes.Add(new("data-trigger", "hover"));
+            attributes.Add(new("data-content", Row.PopupText!));
+            attributes.Add(new("data-original-title", Row.PopupTitle!));
+        }
+
+        if (Row.RowType == Enums.RowEnum.Header)
+        {
+            sb.Append(" headerRow");
+        }
+
+        attributes.Add(new("class", sb.ToString()));
+
+        return attributes;
+    }
+}
