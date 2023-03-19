@@ -27,10 +27,19 @@ public class HomeController : Controller
         };
 
         //var headerStyle = new HeaderStyle();
-        //var rowStyle = new BasicStyle(Color.Red, textBold: true, htmlClasses: "text-danger");
+        //var rowStyle = new BasicStyle(System.Drawing.Color.Red, textBold: true, htmlClasses: "text-danger");
 
-        var headerStyle = new CellStyle();
-        var rowStyle = new CellStyle();
+        var headerStyle = new CellStyle()
+        {
+            BackgroundColor = new w4TR1x.ViewTable.Models.Color(150, 150, 0)
+        };
+
+        var rowStyle = new CellStyle()
+        {
+            FontColor = new w4TR1x.ViewTable.Models.Color(255, 0, 0),
+            Bold = true,
+            TextPosition = TextPositionEnum.Center
+        };
 
         var rnd = new Random();
 
