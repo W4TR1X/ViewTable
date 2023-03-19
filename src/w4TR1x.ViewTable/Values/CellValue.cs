@@ -1,27 +1,54 @@
-﻿using System;
-using w4TR1x.ViewTable.Enums;
-using w4TR1x.ViewTable.Interfaces;
+﻿namespace w4TR1x.ViewTable.Values;
 
-namespace w4TR1x.ViewTable.Values
+[Serializable]
+[JsonConverter(typeof(CellValueConverter))]
+public abstract class CellValue<T> : CellValue
 {
-    public abstract class CellValue<T> : ICellValue
+    [JsonIgnore]
+    public T? TypeValue { get; private set; }
+
+    public override dynamic? Value
     {
-        public object Value { get; set; }
-
-        public Type valueType;
-
-        public CellValue(T value)
-        {
-            valueType = value.GetType();
-            Value = value;
-        }
-
-        public abstract string ToString();
-        public abstract object AsOrderValue();
-
-        public void Dispose()
-        {
-
-        }
+        get => TypeValue;
+        protected set => TypeValue = value;
     }
+
+    [JsonIgnore]
+    public Type ValueType => typeof(T);
+
+    [JsonConstructor]
+    protected CellValue(T? value)
+    {
+        Value = value;
+        TypeValue = value;
+    }
+
+    public T? AsTypeOrderValue() => TypeValue;
+
+    public void Set(dynamic value)
+    {
+        var result = Convert.ChangeType(value, ValueType);
+
+        if (result == null)
+        {
+            throw new ArgumentOutOfRangeException($"{nameof(value)} is {value.GetType()}, but it must be {ValueType}");
+        }
+
+        SetValue((T)result);
+    }
+
+    protected abstract void SetValue(T value);
+    public override dynamic? GetValue() => TypeValue;
+}
+
+[Serializable]
+[JsonConverter(typeof(CellValueConverter))]
+public abstract class CellValue
+{
+    //public abstract string Type { get; }
+
+    public virtual dynamic? Value { get; protected set; }
+
+    public virtual dynamic? GetValue() => Value;
+    public abstract dynamic? AsOrderValue();
 }

@@ -1,82 +1,96 @@
-﻿using w4TR1x.ViewTable.Enums;
-using System;
-using System.Linq;
-using w4TR1x.ViewTable.Interfaces;
-using System.Collections.Generic;
+﻿namespace w4TR1x.ViewTable;
 
-namespace w4TR1x.ViewTable
+[Serializable]
+public class Table //: ITable
 {
-    public class Table
+    public string Identifier { get; private set; } = null!;
+    public bool Responsive { get; set; }
+    public bool UseVerticalTable { get; set; }
+    public bool Stripped { get; set; }
+    public int FixedColumnCount { get; set; } = 1;
+
+    public List<Page> Pages { get; private set; } = new();
+
+    public List<Row> Rows { get; set; } = new();
+
+    public Row? GetFirstRow() => Rows.FirstOrDefault();
+
+    public Row? GetLastRow() => Rows.LastOrDefault();
+
+    [JsonConstructor]
+    public Table(string identifier, bool responsive, bool useVerticalTable, bool stripped,
+        int fixedColumnCount, List<Page> pages, List<Row> rows)
     {
-        public bool Responsive { get; set; }
-        public string Identifier { get; private set; }
-        public List<IRow> Rows { get; private set; }
+        Identifier = identifier;
+        Responsive = responsive;
+        UseVerticalTable = useVerticalTable;
+        Stripped = stripped;
+        FixedColumnCount = fixedColumnCount;
 
-        public bool UseVerticalTable { get; set; }
-        public bool Stripped { get; set; }
-
-        public List<PageModel> Pages { get; private set; }
-
-        public Table(string identifier = null, params PageModel[] pages)
+        if (pages != null)
         {
-            init(identifier, pages);
-        }
-
-        public Table(params PageModel[] pages)
-        {
-            init(null, pages);
-        }
-
-        void init(string identifier = null, params PageModel[] pages)
-        {
-            UseVerticalTable = true;
-
-            Pages = new List<PageModel>();
-            if (pages.Length != 0)
+            foreach (var page in pages)
             {
-                Pages.AddRange(pages);
-            }
-            else
-            {
-                Pages.Add(new PageModel("Default"));
-            }
-
-            Rows = new List<IRow>();
-            Identifier = identifier != null && identifier.ToString().Length == 0 ? $"row_{Guid.NewGuid().ToString().Replace("-", "")}" : identifier;
-        }
-
-        public Table AddRow(IRow row)
-        {
-            Rows.Add(row);
-            return this;
-        }
-
-        public void OrderBy(int cellIndex, int renderIndex, bool desc = false)
-        {
-            Rows.ForEach(row => row.OrderBy(cellIndex, renderIndex, desc));
-
-            if (!desc)
-            {
-                Rows = Rows.OrderBy(x => x.GetOrderValue(cellIndex, renderIndex)).ToList();
-            }
-            else
-            {
-                Rows = Rows.OrderByDescending(x => x.GetOrderValue(cellIndex, renderIndex)).ToList();
+                Pages.Add(page);
             }
         }
 
-        public class PageModel
+        if (pages != null)
         {
-            public string PageName { get; set; }
-            public int OrderBy { get; set; }
-            public bool DescendingOrder { get; set; }
-
-            public PageModel(string pageName, int orderBy = -1, bool descendingOrder = false)
+            foreach (var row in rows)
             {
-                PageName = pageName;
-                OrderBy = orderBy;
-                DescendingOrder = descendingOrder;
+                this.Rows.Add(row);
+                row.SetTable(this);
             }
         }
     }
+
+    public Table(string? identifier = null, params Page[] pages)
+    {
+        Init(identifier, pages);
+    }
+
+    public Table(params Page[] pages)
+    {
+        Init(null, pages);
+    }
+
+    void Init(string? identifier = null, params Page[] pages)
+    {
+        UseVerticalTable = true;
+
+        if (pages.Length != 0)
+        {
+            Pages.AddRange(pages);
+        }
+        else
+        {
+            Pages.Add(new Page("Default"));
+        }
+
+        Identifier = IdentityHelper.CreateIfNull(identifier, "t");
+    }
+
+    public void AddRow(Row row)
+    {
+        row.SetTable(this);
+        Rows.Add(row);
+    }
+
+    public void OrderBy(int cellIndex, int pageIndex, bool desc = false)
+    {
+        Rows.ToList().ForEach(row => row.OrderBy(cellIndex, pageIndex, desc));
+
+        if (!desc)
+        {
+            Rows = Rows.OrderBy(x => x.GetOrderValue(cellIndex, pageIndex)).ToList();
+        }
+        else
+        {
+            Rows = Rows.OrderByDescending(x => x.GetOrderValue(cellIndex, pageIndex)).ToList();
+        }
+    }
+
+    public Task<T?> Render<TOptions, T>(ITableRenderer<TOptions, T> renderer, int pageIndex, TOptions? rendererOptions) where T : class where TOptions : class, ITableRendererOptions<T>
+        => renderer.Render(this, pageIndex, rendererOptions);
 }

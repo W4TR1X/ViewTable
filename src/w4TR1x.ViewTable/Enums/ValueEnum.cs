@@ -1,10 +1,10 @@
-﻿namespace w4TR1x.ViewTable.Enums
+﻿namespace w4TR1x.ViewTable.Enums;
+
+public enum ValueEnum
 {
-    public enum ValueEnum
-    {
-        Int = 0,
-        Single = 1,
-        Double = 2,
-        Triple = 3
-    }
+    Int = 0,
+    Single = 1,
+    Double = 2,
+    Triple = 3,
+    Auto = 9
 }

@@ -1,37 +1,34 @@
-﻿using w4TR1x.ViewTable.Enums;
+﻿namespace w4TR1x.ViewTable.Values;
 
-namespace w4TR1x.ViewTable.Values
+public class DecoratedDoubleValue : DoubleValue
 {
-    public class DecoratedDoubleValue : DoubleValue
+    public string? BeforeText { get; }
+    public string? AfterText { get; }
+
+    public DecoratedDoubleValue(double value, string? beforeText = null, string? afterText = null,
+        ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
+        bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false)
+        : base(value, decimalCount, zeroDecimalCount, displayThousandSeparator, alwaysDisplayDecimals)
     {
-        public readonly string BeforeText;
-        public readonly string AfterText;
+        BeforeText = beforeText;
+        AfterText = afterText;
+    }
 
-        public DecoratedDoubleValue(double value, string beforeText = null, string afterText = null,
-            ValueEnum decimalCount = ValueEnum.Int, ValueEnum zeroDecimalCount = ValueEnum.Triple,
-            bool displayThousandSeparator = false, bool alwaysDisplayDecimals = false)
-            : base(value, decimalCount, zeroDecimalCount, displayThousandSeparator, alwaysDisplayDecimals)
+    public override string ToString()
+    {
+        var value = base.ToString();
+        if (value.Length == 0 || (double)Value == 0) return value;
+
+        if (BeforeText != null)
         {
-            BeforeText = beforeText;
-            AfterText = afterText;
+            value = $"{BeforeText} {value}";
         }
 
-        public override string ToString()
+        if (AfterText != null)
         {
-            var value = base.ToString();
-            if (value.Length == 0 || (double)Value == 0) return value;
-
-            if (BeforeText != null)
-            {
-                value = $"{BeforeText} {value}";
-            }
-
-            if (AfterText != null)
-            {
-                value = $"{value} {AfterText}";
-            }
-
-            return value;
+            value = $"{value} {AfterText}";
         }
+
+        return value;
     }
 }

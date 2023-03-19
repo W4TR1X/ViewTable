@@ -1,0 +1,120 @@
+﻿@using System.Text;
+@using w4TR1x.ViewTable.Enums;
+@if (Cell?.Parent != null)
+{
+    if (Cell.Parent.RowType == Enums.RowEnum.Header)
+    {
+        <th @attributes=GenerateAttributes()>@((MarkupString)cellValue)</th>
+    }
+    else
+    {
+        <td @attributes=GenerateAttributes()>@((MarkupString)cellValue)</td>
+    }
+}
+
+@code {
+    [Parameter] public Cell? Cell { get; set; }
+    [Parameter] public int PageIndex { get; set; }
+
+    string? cellValue;
+
+    List<KeyValuePair<string, object?>> GenerateAttributes()
+    {
+        var attributes = new List<KeyValuePair<string, object?>>();
+        var sb = new StringBuilder();
+
+        var cellIndex = Cell!.Parent!.Cells.IndexOf(Cell);
+
+        attributes.Add(new("id", Cell.Identifier));
+
+        sb.Append("align-center");
+
+        if (Cell.Parent.RowType != RowEnum.Header
+            && Cell.Parent.Table.FixedColumnCount > cellIndex)
+        {
+            sb.Append(" fixedCell");
+        }
+
+        // TODO: Use this
+        //Cell.Parent.Styles.ToList().ForEach(style =>
+        //{
+        //    style.Render(thisCell, Cell, PageIndex);
+        //});
+
+        if (Cell.ColSpan > 1)
+        {
+            attributes.Add(new("colspan", Cell.ColSpan));
+        }
+
+        if (Cell.RowSpan > 1)
+        {
+            attributes.Add(new("rowspan", Cell.RowSpan));
+        }
+
+        var style = Cell.GetStyle(PageIndex);
+
+        // TODO: Use this
+        //if (style != null)
+        //{
+        //    style.Render(thisCell, cell, renderIndex);
+        //}
+
+        switch (Cell.GetStyle(PageIndex).TextPosition)
+        {
+            case TextPositionEnum.Center:
+                sb.Append(" text-center");
+                sb.Append(" center");
+                break;
+        }
+
+        cellValue = Cell.GetValueAsString(PageIndex);
+
+        cellValue = cellValue == "0" ? "" :
+                    cellValue == "0,0" ? "" :
+                    cellValue == "0,00" ? "" :
+                    cellValue == "0,000" ? "" :
+                    cellValue == "0" ? "" :
+                    cellValue == "0.0" ? "" :
+                    cellValue == "0.00" ? "" :
+                    cellValue == "0.000" ? "" : cellValue;
+
+        if (!string.IsNullOrEmpty(cellValue))
+        {
+            cellValue = cellValue.Replace("\r\n", "<br>");
+
+            if (Cell.Parent != null && Cell.Parent.RowType == RowEnum.Record)
+            {
+                attributes.Add(new("data-title", Cell.Parent.GetTitleFor(Cell)));
+            }
+        }
+        else
+        {
+            sb.Append(" hidden");
+        }
+
+        if (Cell.Parent!.Collapsable)
+        {
+            if (Cell.Index() == 0)
+            {
+                cellValue += " <i class=\"fa text-muted\" aria-hidden=\"true\"></i>";
+            }
+        }
+
+        if (Cell.NoWrap)
+        {
+            attributes.Add(new("style", "white-space:nowrap;"));
+        }
+
+        if (Cell.CanPopup(PageIndex))
+        {
+            attributes.Add(new("data-toggle", "popover"));
+            attributes.Add(new("data-trigger", "hover"));
+            attributes.Add(new("data-content", Cell.Values[PageIndex].PopupText));
+            attributes.Add(new("data-original-title", Cell.Values[PageIndex].PopupTitle));
+        }
+
+        attributes.Add(new("class", sb.ToString()));
+
+        return attributes;
+    }
+}

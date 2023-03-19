@@ -4,5 +4,49 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="card-header">Test Table (Responsive & Vertical)</div>
-<view-table Table="@Model.TestTable"></view-table>
+<div class="mb-2">
+    <div class="card">
+        <div class="card-header">
+            Test Table (Responsive & Vertical)
+        </div>
+        <div class="card-body">
+            <view-table Table="@Model.TestTable"></view-table>
+        </div>
+    </div>
+</div>
+
+<div class="mb-2">
+    <div class="card">
+        <div class="card-header">
+            Test Table (Blazor)
+        </div>
+        <div class="card-body">
+            <Component type="typeof(ViewTable)" param-Table="@ViewBag.modelFromJson"
+                       param-PageIndex="0" render-mode="ServerPrerendered" />
+        </div>
+    </div>
+</div>
+
+<div class="mb-2">
+    <div class="card">
+        <div class="card-header">
+            System.Text.Json Serialize
+        </div>
+        <div class="card-body" style="height:300px;overflow-y:auto;">
+            @ViewBag.Json
+        </div>
+    </div>
+</div>
+
+<div class="mb-2">
+    <div class="card">
+        <div class="card-header">
+            Test Table After Deserialize
+        </div>
+        <div class="card-body">
+            <view-table Table="@ViewBag.modelFromJson"></view-table>
+        </div>
+    </div>
+</div>
+
+<script src="_framework/blazor.server.js"></script>
